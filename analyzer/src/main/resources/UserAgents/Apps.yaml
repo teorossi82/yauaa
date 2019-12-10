@@ -238,7 +238,7 @@ config:
       LayoutEngineVersion                  : '??'
       LayoutEngineVersionMajor             : '??'
       AgentClass                           : 'Special'
-      AgentName                            : 'Callpod Keeper for Android'
+      AgentName                            : 'Generic Android App'
       AgentVersion                         : '1.0'
       AgentVersionMajor                    : '1'
       AgentNameVersion                     : 'Callpod Keeper for Android 1.0'

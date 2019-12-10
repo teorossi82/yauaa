@@ -986,7 +986,7 @@ config:
       LayoutEngineVersion                  : '??'
       LayoutEngineVersionMajor             : '??'
       AgentClass                           : 'Special'
-      AgentName                            : 'Dalvik'
+      AgentName                            : 'Generic Android App'
       AgentVersion                         : '2.1.0'
       AgentVersionMajor                    : '2'
       AgentNameVersion                     : 'Dalvik 2.1.0'

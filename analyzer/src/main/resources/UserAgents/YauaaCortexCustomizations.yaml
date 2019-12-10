@@ -18,6 +18,122 @@
 
 # custom Spreaker Apps
 config:
+
+  - matcher:
+      extract:
+        - 'AgentName                         :    200 :LookUp[KnownApplications;agent.product.name]'
+  - matcher:
+      extract:
+        - 'AgentName                         :    200 :LookUp[KnownMediaLibraries;agent.product.name]'
+
+  - lookup:
+      name: 'KnownApplications'
+      map:
+        "NSPlayer"                      : "Windows Media Player"
+        "Windows-Media-Player"          : "Windows Media Player"
+        "Audacious"                     : "Audacious"
+        "iTunes"                        : "iTunes"
+        "iTunes-iPhone"                 : "iTunes"
+        "iTunes-iPod"                   : "iTunes"
+        "iTunes-iPad-M"                 : "iTunes"
+        "iTunes-iPad"                   : "iTunes"
+        "vlc"                           : "VLC"
+        "VLC media player - version"    : "VLC"
+        "Ares"                          : "Ares"
+        "Overcast"                      : "Overcast"
+        "Zune"                          : "Zune"
+        "Stitcher"                      : "Stitcher"
+        "stitcherbot"                   : "Stitcher"
+        "MediaGo"                       : "MediaGo"
+        "gPodder"                       : "gPodder"
+        "Podkicker"                     : "Podkicker"
+        "Instacast"                     : "Instacast"
+        "Ivoox"                         : "iVoox"
+        "Sonos"                         : "Sonos"
+        "CORE"                          : "Generic Android App"
+        "Dalvik"                        : "Generic Android App"
+        "AndroidDownloadManager"        : "Generic Android App"
+        "AntennaPod"                    : "AntennaPod"
+        "iCatcher"                      : "iCatcher"
+        "PodCruncher"                   : "PodCruncher"
+        "Radioline"                     : "Radioline"
+        "Acast"                         : "Acast"
+        "APKXDL"                        : "Generic Android App"
+        "Audioteka"                     : "Audioteka"
+        "bPod"                          : "Blackberry"
+        "Castamatic"                    : "Castamatic"
+        "CastBox"                       : "CastBox"
+        "Castro"                        : "Castro"
+        "Clementine"                    : "Clementine"
+        "Downcast"                      : "Downcast"
+        "EMAudioPlayer"                 : "Generic Android App"
+        "ExoPlayerDemo"                 : "Generic Android App"
+        "ExoPlayerWrapper"              : "Generic Android App"
+        "FFmpegMediaPlayer"             : "FFmpeg"
+        "HTC Streaming Player htc"      : "HTC Music"
+        "iHeartRadio"                   : "iHeartRadio"
+        "itunesstored"                  : "iTunes"
+        "MediaMonkey"                   : "MediaMonkey"
+        "Mixcloud"                      : "Mixcloud"
+        "MixcloudPodcastImporter"       : "Mixcloud"
+        "Podbean"                       : "Podbean"
+        "Podcast Addict - Dalvik"       : "PodcastAddict"
+        "PodcastAddict"                 : "PodcastAddict"
+        "Podkicker Classic"             : "Podkicker"
+        "Podkicker Pro"                 : "Podkicker"
+        "RSSRadio"                      : "RSSRadio"
+        "Spotify"                       : "Spotify"
+        "StitcherBot"                   : "Stitcher"
+        "Trunews"                       : "Trunews"
+        "UCast"                         : "UCast"
+        "VLC"                           : "VLC"
+        "WeCast"                        : "WeCast"
+        "WinampMPEG"                    : "Winamp"
+        "ivooxNew"                      : "iVoox"
+        "Roku"                          : "Roku"
+        "WMPlayer"                      : "Windows Media Player"
+        "Ask Pastor John"               : "Ask Pastor John"
+        "The Karel Cast"                : "The Karel Cast"
+        "GLOBAL HITS CON ARMANDO PLATA" : "GLOBAL HITS con Armando Plata"
+        "Headgum"                       : "Headgum"
+        "iDownloaderPro"                : "iDownloaderPro"
+        "MPlayer"                       : "MPlayer"
+        "Simple Radio"                  : "Simple Radio"
+        "TuneIn Radio Pro"              : "TuneIn Radio"
+        "TuneIn Radio"                  : "TuneIn Radio"
+        "Juice"                         : "Juice"
+        "mytuner"                       : "myTuner"
+        "MediaAnalyzer/podCloud"        : "podCloud"
+        "RMA"                           : "RealPlayer"
+
+  - lookup:
+      name: 'KnownMediaLibraries'
+      map:
+        "stagefright"               : "Generic Android App"
+        "okhttp"                    : "Generic Android App"
+        "BeyondPod"                 : "BeyondPod"
+        "DoggCatcher"               : "DoggCatcher"
+        "FBAV|com.facebook.katana"  : "Facebook"
+        "Kodi"                      : "Kodi Media Center"
+        "XBMC"                      : "Kodi Media Center" # This is the former name of Kodi
+        "Winamp"                    : "Winamp"
+        "QuickTime"                 : "QuickTime"
+        "Player FM"                 : "Player FM"
+        "MSIE"                      : "Internet Explorer"
+        "IEMobile"                  : "Internet Explorer"
+        "GStreamer"                 : "GStreamer"
+        "NexPlayer"                 : "NexPlayer"
+        "VictorReader"              : "VictorReader"
+        "CrKey"                     : "Chromecast"
+        "Deezer/"                   : "Deezer"
+        "Sonos/"                    : "Sonos"
+
+# todo pandora and luminary rule
+#    "Pandora\\/\\d+"              -> "Pandora",
+#    "^Luminary\\/\\d+"            -> "Luminary"
+
+
+
   - set:
       name: 'Bots'
       values:

@@ -231,7 +231,7 @@ config:
       LayoutEngineVersion                  : '??'
       LayoutEngineVersionMajor             : '??'
       AgentClass                           : 'Browser'
-      AgentName                            : 'Dolfin'
+      AgentName                            : 'NexPlayer'
       AgentVersion                         : '2.0'
       AgentVersionMajor                    : '2'
       AgentNameVersion                     : 'Dolfin 2.0'
