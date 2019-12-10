@@ -118,4 +118,13 @@ public class TestPredefinedBrowsers {
         }
         fail("Found "+ duplicates.size()+ " testcases multiple times: \n" + sb.toString());
     }
+
+    @Test
+    public void validate_DeviceClass_AgentName_OperatingSystemName() {
+        Set<String> fields = new HashSet<>();
+        fields.add("DeviceClass");
+        fields.add("AgentName");
+        fields.add("OperatingSystemName");
+        validateAllPredefinedBrowsersMultipleFields(fields);
+    }
 }
