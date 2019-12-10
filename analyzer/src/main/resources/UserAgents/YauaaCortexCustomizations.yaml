@@ -71,30 +71,90 @@ config:
     # Smart Speakers
   - matcher:
       require:
-        - 'agent.(1)product.(1)name="AlexaMediaPlayer"'
-        - 'agent.(1)product.(1)comments.(1)entry="Linux"'
-        - 'agent.(1)product.(1)comments.(2)entry.(1)product.(1)name="Android"'
-        - 'agent.(2)product.(1)name="ExoPlayerLib"'
+        - 'agent.product.name="AlexaMediaPlayer"'
       extract:
         - 'DeviceClass                         :   2000 : "Smart Speaker"'
-        - 'AgentName                           :   1000 : "Alexa Media Player"'
         - 'OperatingSystemName                 :   1000 : "Amazon Alexa"'
+        - 'AgentName                           :   1000 : "Alexa Media Player"'
+
+  - matcher:
+      require:
+        - 'agent.product.name="AlexaMediaPlayer"'
+        - 'agent.(1)product.(1)version="Stitcher"'
+      extract:
+        - 'DeviceClass                         :   2000 : "Smart Speaker"'
+        - 'OperatingSystemName                 :   1000 : "Amazon Alexa"'
+        - 'AgentName                           :   1001 : "Stitcher"'
 
   - test:
       input:
         user_agent_string: 'AlexaMediaPlayer/1.0.2353.0_16xxxxxx (Linux;Android 5.1.1) ExoPlayerLib/1.5.9'
       expected:
         DeviceClass                          : 'Smart Speaker'
-        AgentName                            : 'Alexa Media Player'
         OperatingSystemName                  : 'Amazon Alexa'
+        AgentName                            : 'Alexa Media Player'
 
   - test:
       input:
         user_agent_string: 'AlexaMediaPlayer/5.1.1-256.5.9.9_user_599xxxxxx (Linux;Android 5.1.1) ExoPlayerLib/1.5.9'
       expected:
         DeviceClass                          : 'Smart Speaker'
-        AgentName                            : 'Alexa Media Player'
         OperatingSystemName                  : 'Amazon Alexa'
+        AgentName                            : 'Alexa Media Player'
+
+  - test:
+      input:
+        user_agent_string: 'AlexaMediaPlayer/Stitcher (Linux;Android 8.1.0) ExoPlayerLib/2.2.0'
+      expected:
+        DeviceClass                          : 'Smart Speaker'
+        OperatingSystemName                  : 'Amazon Alexa'
+        AgentName                            : 'Stitcher'
+
+  - matcher:
+      require:
+        - 'agent.product.name="GoogleChirp"'
+      extract:
+        - 'DeviceClass                         :   1000 : "Smart Speaker"'
+        - 'OperatingSystemName                 :   1000 : "Google Nest"'
+        - 'AgentName                           :   1000 : "Google Podcasts"'
+
+  - test:
+      input:
+        user_agent_string: 'Libassistant/1.0 GoogleChirp/1.0.1 (Linux; Android/5.0) GOOG/7 AppleWebKit/534.30 (KHTML, like Gecko)'
+      expected:
+        DeviceClass                          : 'Smart Speaker'
+        OperatingSystemName                  : 'Google Nest'
+        AgentName                            : 'Google Podcasts'
+
+  - matcher:
+      require:
+        - 'agent.product.name="GSA"'
+      extract:
+        - 'AgentName                           :   1000 : "Google Podcasts"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; U; Android 8.1.0; zh-cn; PBAT00 Build/OPM1.171019.026) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 GSA/10.86.14.21.arm64'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Google Podcasts'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/87.0.279142407 Mobile/15E148 Safari/605.1'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Google Podcasts'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPad; CPU OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/87.0.279142407 Mobile/15E148 Safari/605.1'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Google Podcasts'
 
 
   - matcher:
