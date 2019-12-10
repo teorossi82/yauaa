@@ -1,0 +1,2085 @@
+#
+# Yet Another UserAgent Analyzer
+# Copyright (C) 2013-2019 Niels Basjes
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an AS IS BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# CORTEX CUSTOMIZATIONS STARTS HERE "Spreaker for Android 4"'
+
+# custom Spreaker Apps
+config:
+  - set:
+      name: 'Bots'
+      values:
+        - 'Go-http-client'
+        - 'IMGStreamchecker'
+        - 'fyyd-poll'
+        - 'Apache-HttpClient'
+        - 'Python-urllib'
+
+  - set:
+      name: 'AppleTV'
+      values:
+        - 'Apple TV'
+        - 'AppleTV'
+        - 'Apple tv'
+
+  - set:
+      name: 'LibsynBots'
+      values:
+        - 'Libsyn4-Download'
+        - 'Libsyn4-peek'
+        - 'Libsyn4Peek'
+        - 'Libsyn4-Peek'
+        - 'Libsyn3'
+
+  # iHeartRadio Apps
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="iHeartRadio"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)product.(1)name{"Android"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 : agent.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'iHeartRadio/7.5.1 (Android Sdk 24)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'iHeartRadio'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'iHeartRadio/8.10.0 (Android 7.1.1; ZTE B2017G Build/NMF26V)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'iHeartRadio'
+        OperatingSystemName                    : 'Android'
+
+    # Smart Speakers
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AlexaMediaPlayer"'
+        - 'agent.(1)product.(1)comments.(1)entry="Linux"'
+        - 'agent.(1)product.(1)comments.(2)entry.(1)product.(1)name="Android"'
+        - 'agent.(2)product.(1)name="ExoPlayerLib"'
+      extract:
+        - 'DeviceClass                         :   2000 : "Smart Speaker"'
+        - 'AgentName                           :   1000 : "Alexa Media Player"'
+        - 'OperatingSystemName                 :   1000 : "Amazon Alexa"'
+
+  - test:
+      input:
+        user_agent_string: 'AlexaMediaPlayer/1.0.2353.0_16xxxxxx (Linux;Android 5.1.1) ExoPlayerLib/1.5.9'
+      expected:
+        DeviceClass                          : 'Smart Speaker'
+        AgentName                            : 'Alexa Media Player'
+        OperatingSystemName                  : 'Amazon Alexa'
+
+  - test:
+      input:
+        user_agent_string: 'AlexaMediaPlayer/5.1.1-256.5.9.9_user_599xxxxxx (Linux;Android 5.1.1) ExoPlayerLib/1.5.9'
+      expected:
+        DeviceClass                          : 'Smart Speaker'
+        AgentName                            : 'Alexa Media Player'
+        OperatingSystemName                  : 'Amazon Alexa'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Echo"'
+        - 'agent.(1)product.(1)comments="(APNG)"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Smart Speaker"'
+        - 'AgentName                          :   1000 : "Alexa Media Player"'
+        - 'OperatingSystemName                :   1000 : "Amazon Alexa"'
+
+  - test:
+      input:
+        user_agent_string                    : 'Echo/1.0(APNG)'
+      expected:
+        DeviceClass                          : 'Smart Speaker'
+        AgentName                            : 'Alexa Media Player'
+        OperatingSystemName                  : 'Amazon Alexa'
+
+    # Smart Watch
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AppleCoreMedia"'
+        - 'agent.(1)product.(1)comments.(1)entry="Apple Watch"'
+        - 'agent.(1)product.(1)comments.(3)entry.(2)text="like Mac OS X"'
+      extract:
+        - 'OperatingSystemName               :   2500 : "WatchOS"'
+        - 'AgentName                         :   3500 : "Apple Podcasts"'
+        - 'DeviceClass                       :   2500 : "Smart Watch"'
+
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16U113 (Apple Watch; U; CPU OS 5_2_1 like Mac OS X; en_us)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'WatchOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="atc"'
+        - 'agent.(2)product.(1)name="watchOS"'
+        - 'agent.(4)product.(1)name="hwp"'
+      extract:
+        - 'OperatingSystemName               :   2000 : "WatchOS"'
+        - 'AgentName                         :   1000 : "Apple Podcasts"'
+        - 'DeviceClass                       :   1000 : "Smart Watch"'
+
+  - test:
+      input:
+        user_agent_string                    : 'atc/1.0 watchOS/5.1.3 model/Watch3,4 hwp/t8004 build/16S535 (6; dt:156)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'WatchOS'
+
+  - test:
+      input:
+        user_agent_string                    : 'atc/1.0 watchOS/5.2 model/Watch4,4 hwp/t8006 build/16T225 (6; dt:193)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'WatchOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product="Mozilla/5.0 (null)/(null)"'
+        - 'agent.(2)product.(1)name="watchOS"'
+        - 'agent.(4)product.(1)name="hwp"'
+      extract:
+        - 'OperatingSystemName               :   2000 : "WatchOS"'
+        - 'AgentName                         :   1000 : "Apple Podcasts"'
+        - 'DeviceClass                       :   1000 : "Smart Watch"'
+
+  - test:
+      input:
+        user_agent_string                    :  '(null)/(null) watchOS/5.1.1 model/Watch3,3 hwp/t8004 build/16R600 (6; dt:155)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'WatchOS'
+
+  # podcatchers
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Stitcher"'
+        - 'agent.(1)product.(1)version="Android"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Mobile"'
+        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 :  agent.(1)product.(1)version'
+  - test:
+      input:
+        user_agent_string                    : 'Stitcher/Android'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Stitcher'
+        OperatingSystemName                  : 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Stitcher"'
+        - 'agent.(1)product.(1)version="iOS"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Mobile"'
+        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 :  agent.(1)product.(1)version'
+  - test:
+      input:
+        user_agent_string                    : 'Stitcher/iOS'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Stitcher'
+        OperatingSystemName                  : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Castbox"'
+      extract:
+        - 'AgentName                          :   1001 : "CastBox"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="CastBox"'
+        - 'agent.(1)product.(1)comments.(3)entry.(1)product.(1)name="iOS"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Mobile"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 : agent.(1)product.(1)comments.(3)entry.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string                    : 'CastBox/4.27 (fm.castbox.audiobook.radio.podcast; build:8; iOS 12.2.0)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'CastBox'
+        OperatingSystemName                  : 'iOS'
+
+  - test:
+      input:
+        user_agent_string                    : 'Castbox/4.22.1 (fm.castbox.audiobook.radio.podcast; build:2; iOS 12.3.1) Alamofire/4.7.3'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'CastBox'
+        OperatingSystemName                  : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Overcast"'
+        - 'agent.(1)product.(1)comments.(1)entry="http://overcast.fm/"'
+        - 'agent.(1)product.(1)comments.(2)entry="iOS podcast app"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Mobile"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 : "iOS"'
+
+  - test:
+      input:
+        user_agent_string                    : 'Overcast/3.0 (+http://overcast.fm/; iOS podcast app)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Overcast'
+        OperatingSystemName                  : 'iOS'
+
+  - test:
+      input:
+        user_agent_string                    : 'Overcast/2.0 (+http://overcast.fm/; iOS podcast app)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Overcast'
+        OperatingSystemName                  : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Luminary"'
+        - 'agent.(2)product.(2)version="iOS"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Mobile"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 : agent.(2)product.(2)version'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Luminary"'
+        - 'agent.(2)product.(2)version="Android"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Mobile"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 : agent.(2)product.(2)version'
+
+  - test:
+      input:
+        user_agent_string                    : 'Luminary/1.0.3 build 71/iOS 12.2'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Luminary'
+        OperatingSystemName                  : 'iOS'
+
+  - test:
+      input:
+        user_agent_string                    : 'Luminary/1.0.2 build 57/Android SDK 28'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Luminary'
+        OperatingSystemName                  : 'Android'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Podcasts"'
+      extract:
+        - 'AgentName                         :   1000 : "Apple Podcasts"'
+
+  - test:
+      input:
+        user_agent_string                    : 'Podcasts/3.5.1'
+      expected:
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'Unknown'
+        DeviceClass                          : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(3)product.(1)name="Mobile"'
+        - 'agent.(4)product.(1)name="Pandora"'
+      extract:
+        - 'AgentName                         :   1000 :  agent.(4)product.(1)name'
+        - 'DeviceClass                       :   1000 :  "Phone"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302 Pandora/1902.1'
+      expected:
+        AgentName                            : 'Pandora'
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="facebookexternalhit"'
+      extract:
+        - 'DeviceClass                       :    110 :  "Robot"'
+        - 'DeviceName                        :    110 :  "Facebook Robot"'
+        - 'DeviceBrand                       :    110 :  "Facebook"'
+        - 'OperatingSystemClass              :    110 :  "Unknown"'
+        - 'OperatingSystemName               :    110 :  "Unknown"'
+        - 'OperatingSystemVersion            :    100 :  "Unknown"'
+        - 'AgentName                         :   2000 :  "Facebot"'
+
+  - test:
+      input:
+        user_agent_string: 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)'
+      expected:
+        AgentName                            : 'Facebot'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Podbean"'
+        - 'agent.(1)product.(1)version="Android App"'
+      extract:
+        - 'AgentName                         :   1000 :  agent.(1)product.(1)name'
+        - 'DeviceClass                       :   1000 :  "Mobile"'
+        - 'OperatingSystemName               :   1000 :  "Android"'
+
+  - test:
+      input:
+        user_agent_string: 'Podbean/Android App 6.2.1 (http://podbean.com),75b7fab34581539ef4029f2e9d6de2bf'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Podbean'
+        OperatingSystemName                  : 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Podbean"'
+        - 'agent.(1)product.(1)version="iOS"'
+      extract:
+        - 'AgentName                         :   1000 :  agent.(1)product.(1)name'
+        - 'DeviceClass                       :   1000 :  "Mobile"'
+        - 'OperatingSystemName               :   1000 :  agent.(1)product.(1)version'
+
+  - test:
+      input:
+        user_agent_string: 'Podbean/iOS (http://podbean.com) 4.3.6 - 07268ca018ec49e614c5341c62d1e3c4'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Podbean'
+        OperatingSystemName                  : 'iOS'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product="Mozilla/5.0 (compatible; Google-Podcast)"'
+        - 'agent.(1)product.(1)comments.(2)entry="Google-Podcast"'
+      extract:
+        - 'AgentName                         :   2000 :  "Google Play Music"'
+        - 'DeviceClass                       :   1000 :  "Spider"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (compatible; Google-Podcast)'
+      expected:
+        DeviceClass                          : 'Spider'
+        AgentName                            : 'Google Play Music'
+        OperatingSystemName                  : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent="doubleTwist CloudPlayer"'
+      extract:
+        - 'AgentName                         :   2000 :  "CloudPlayer"'
+        - 'DeviceClass                       :   1000 :  "Unknown"'
+        - 'OperatingSystemName               :   1000 :  "Android"'
+
+
+  - test:
+      input:
+        user_agent_string: 'doubleTwist CloudPlayer'
+      expected:
+        AgentName                            : 'CloudPlayer'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Android'
+
+  - matcher:
+      require:
+        - 'agent="Ubook Player"'
+      extract:
+        - 'AgentName                         :   2000 :  "Ubook Player"'
+        - 'DeviceClass                       :   1000 :  "Unknown"'
+        - 'OperatingSystemName               :   1000 :  "Unknown"'
+
+
+  - test:
+      input:
+        user_agent_string: 'Ubook Player'
+      expected:
+        AgentName                            : 'Ubook Player'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent="ServeStream"'
+      extract:
+        - 'AgentName                         :   2000 :  "ServeStream"'
+        - 'DeviceClass                       :   1000 :  "Unknown"'
+        - 'OperatingSystemName               :   1000 :  "Android"'
+
+  - test:
+      input:
+        user_agent_string: 'ServeStream'
+      expected:
+        AgentName                            : 'ServeStream'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Android'
+
+  - matcher:
+      require:
+        - 'agent="Player FM"'
+      extract:
+        - 'AgentName                         :   2000 :  "Player FM"'
+        - 'DeviceClass                       :   1000 :  "Unknown"'
+        - 'OperatingSystemName               :   1000 :  "Unknown"'
+
+  - test:
+      input:
+        user_agent_string: 'Player FM'
+      expected:
+        AgentName                            : 'Player FM'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="MixcloudPodcastImporter"'
+      extract:
+        - 'AgentName                         :   2000 :  agent.(1)product.(1)name'
+        - 'DeviceClass                       :   1000 :  "Robot"'
+
+  - test:
+      input:
+        user_agent_string: 'MixcloudPodcastImporter/2.0'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'MixcloudPodcastImporter'
+        OperatingSystemName                   : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(5)product="Spreaker/1.0"'
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(1)entry="Macintosh"'
+        - 'agent.(4)product.(1)name="Safari"'
+      extract:
+        - 'AgentName                         :   2500 :  "SpreakerBot"'
+        - 'DeviceClass                       :   1000 :  "Robot"'
+        - 'OperatingSystemName               :   1000 :  "Mac OS"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/53.0.6629.89 Safari/537.36 Spreaker/1.0'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'SpreakerBot'
+        OperatingSystemName                   : 'Mac OS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Breaker"'
+        - 'agent.(1)product.(1)version="iOS"'
+        - 'agent.(1)product.(1)comments="(https://breaker.audio)"'
+
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                : 1000   :  agent.(1)product.(1)version'
+        - 'DeviceClass                        : 1000   :  "Mobile"'
+        - 'AgentNameVersionMajor              :  1000  :  agent.(1)product.(1)version'
+
+  - test:
+      input:
+        user_agent_string: 'Breaker/iOS (https://breaker.audio) BMID/E68087883D'
+      expected:
+        DeviceClass                             : 'Mobile'
+        AgentName                               : 'Breaker'
+        OperatingSystemName                     : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Breaker"'
+
+      extract:
+        - 'AgentName                          :  1000   :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                :  1000   :  "iOS"'
+        - 'DeviceClass                        :  1000   :  "Mobile"'
+
+  - test:
+      input:
+        user_agent_string: 'Breaker/0.7.10 (1034)'
+      expected:
+        DeviceClass                             : 'Mobile'
+        AgentName                               : 'Breaker'
+        OperatingSystemName                     : 'iOS'  # no android apk delivered yet
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="gPodder"'
+        - 'agent.(2)product.(1)name="Windows"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)product.(1)name.(1)url="http://gpodder.org"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                : 1000   :  agent.(2)product.(1)name'
+        - 'DeviceClass                        : 1000   :  "Desktop"'
+
+  - test:
+      input:
+        user_agent_string: 'gPodder/3.10.3 (+http://gpodder.org/) Windows/10'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'gPodder'
+        OperatingSystemName                     : 'Windows'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="gPodder"'
+        - 'agent.(2)product.(1)name="Darwin"'
+        - 'agent.(1)product.(1)comments="(+http://gpodder.org/)"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)product.(1)name.(1)url="http://gpodder.org"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                : 1000   :  "Mac OS"'
+        - 'DeviceClass                        : 1000   :  "Desktop"'
+
+  - test:
+      input:
+        user_agent_string: 'gPodder/3.10.9 (+http://gpodder.org/) Darwin/19.0.0'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'gPodder'
+        OperatingSystemName                     : 'Mac OS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="gPodder"'
+        - 'agent.(2)product.(1)name="Linux"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)product.(1)name.(1)url="http://gpodder.org"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                : 1000   :  agent.(2)product.(1)name'
+        - 'DeviceClass                        : 1000   :  "Desktop"'
+
+  - test:
+      input:
+        user_agent_string: 'gPodder/3.10.1 (+http://gpodder.org/) Linux/4.15.0-50-generic'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'gPodder'
+        OperatingSystemName                     : 'Linux'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="gPodder"'
+        - 'IsNull[agent.(2)product.(1)name]'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)product.(1)name.(1)url="http://gpodder.org"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'DeviceClass                        : 1000   :  "Desktop"'
+        - 'OperatingSystemName                : 1000   :  "Unknown"'
+
+  - test:
+      input:
+        user_agent_string: 'gPodder/4.6.0 (+http://gpodder.org/)'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'gPodder'
+        OperatingSystemName                     : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Juice"'
+        - 'agent.(1)product.(1)comments.(1)entry="Windows"'
+        - 'agent.(2)product="http://juicereceiver.sf.net/"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'DeviceClass                        : 1000   :  "Desktop"'
+        - 'OperatingSystemName                : 1000   :  agent.(1)product.(1)comments.(1)entry'
+
+  - test:
+      input:
+        user_agent_string: 'Juice/2.2 (Windows) +http://juicereceiver.sf.net/'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'Juice'
+        OperatingSystemName                     : 'Windows'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="UCast"'
+        - 'agent.(2)product.(1)name="Podcast Sync"'
+        - 'agent.(2)product.(1)comments.(3)entry.(1)product.(1)name="http://www.ucastapp.com"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'DeviceClass                        : 2000   :  "Mobile"'
+        - 'OperatingSystemName                : 1000   :  "iOS"'
+
+  - test:
+      input:
+        user_agent_string: 'UCast/1.0 Podcast Sync (1 subscribers; feed-id=aHR0cDovL3d3dy5yYWRpb2NhYmxlLmNvbS9zZWNjaW9uZXMvYXVkaW8vZmVlZA77F85291-7393-4A39-8B98-CAD8E4A47564; +http://www.ucastapp.com/)'
+      expected:
+        DeviceClass                             : 'Mobile'
+        AgentName                               : 'UCast'
+        OperatingSystemName                     : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="UCast"'
+        - 'agent.(2)product.(1)name="Podcast Sync"'
+        - 'agent.(2)product.(1)comments.(2)entry.(1)product.(1)name="http://www.ucastapp.com"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'DeviceClass                        : 2000   :  "Mobile"'
+        - 'OperatingSystemName                : 1000   :  "iOS"'
+
+  - test:
+      input:
+        user_agent_string: 'UCast/1.0 Podcast Sync (feed-id=KG51bGwp; +http://www.ucastapp.com/)'
+      expected:
+        DeviceClass                             : 'Mobile'
+        AgentName                               : 'UCast'
+        OperatingSystemName                     : 'iOS'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spotify"'
+        - 'IsNull[agent.(2)product.(1)name]'
+      extract:
+        - 'DeviceClass                        : 2000  : "Robot"'
+  - test:
+      input:
+        user_agent_string                    : 'Spotify/1'
+      expected:
+        DeviceClass                          : 'Robot'
+        AgentName                            : 'Spotify'
+        OperatingSystemName                  : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string                    : 'Spotify/1.0'
+      expected:
+        DeviceClass                          : 'Robot'
+        AgentName                            : 'Spotify'
+        OperatingSystemName                  : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spotify"'
+        - 'agent.(2)product.(1)name="iOS"'
+        - 'agent.(2)product.(1)comments.(1)entry.(1)text{"iPhone"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'DeviceClass                        : 1000   :  "Phone"'
+        - 'OperatingSystemName                : 1000   :  agent.(2)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'Spotify/8.5.7 iOS/12.1.1 (iPhone10,6)'
+      expected:
+        DeviceClass                             : 'Phone'
+        AgentName                               : 'Spotify'
+        OperatingSystemName                     : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spotify"'
+        - 'agent.(2)product.(1)comments.(1)entry.(1)text="PC laptop"'
+        - 'agent.(2)product.(1)name="Win32"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Desktop"'
+        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 :  "Windows"'
+  - test:
+      input:
+        user_agent_string                    : 'Spotify/110500153 Win32/0 (PC laptop)'
+      expected:
+        DeviceClass                          : 'Desktop'
+        AgentName                            : 'Spotify'
+        OperatingSystemName                  : 'Windows'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spotify"'
+        - 'agent.(2)product.(1)comments.(1)entry.(1)text="PC desktop"'
+        - 'agent.(2)product.(1)name="Win32"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Desktop"'
+        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   1000 :  "Windows"'
+
+  - test:
+      input:
+        user_agent_string                    : 'Spotify/110500153 Win32/0 (PC desktop)'
+      expected:
+        DeviceClass                          : 'Desktop'
+        AgentName                            : 'Spotify'
+        OperatingSystemName                  :  'Windows'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spotify"'
+        - 'agent.(2)product.(1)name="OSX"'
+      extract:
+        - 'AgentName                          : 1000   : agent.(1)product.(1)name'
+        - 'DeviceClass                        : 1000   : "Desktop"'
+        - 'OperatingSystemName                : 1000   : "Mac OS"'
+
+  - test:
+      input:
+        user_agent_string: 'Spotify/110900383 OSX/0 (iMac18,3)'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'Spotify'
+        OperatingSystemName                     : 'Mac OS'
+
+  - test:
+      input:
+        user_agent_string: 'Spotify/107700338 OSX/0 (MacBookAir6,2)'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'Spotify'
+        OperatingSystemName                     : 'Mac OS'
+
+  - test:
+      input:
+        user_agent_string: 'Spotify/1.0.0 OSX/10_14_1 (spclientd__device_hardware_model)'
+      expected:
+        DeviceClass                             : 'Desktop'
+        AgentName                               : 'Spotify'
+        OperatingSystemName                     : 'Mac OS'
+
+  # yauaa Already validates anonymized user agent strings, and returns this trilogy
+  - test:
+      input:
+        user_agent_string: ''
+      expected:
+        AgentName                               : 'Hacker'
+        DeviceClass                             : 'Hacker'
+        OperatingSystemName                     : 'Hacker'
+
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(2)entry.(1)product.(1)name="Android"'
+        - 'agent.(5)text="Bytespider"'
+      extract:
+        - 'AgentName                          : 2500   : agent.(5)text'
+        - 'DeviceClass                        : 2000   : "Robot"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.1179.1295 Mobile Safari/537.36; Bytespider'
+      expected:
+        AgentName                               : 'Bytespider'
+        DeviceClass                             : 'Robot'
+        OperatingSystemName                     : 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(1)entry{"Windows"'
+        - 'agent.(5)text="Bytespider"'
+      extract:
+        - 'AgentName                          : 2500   : agent.(5)text'
+        - 'OperatingSystemName                : 2500   : "Windows"'
+        - 'DeviceClass                        : 2000   : "Robot"'
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.9496.1000 Safari/537.36; Bytespider'
+      expected:
+        AgentName                               : 'Bytespider'
+        DeviceClass                             : 'Robot'
+        OperatingSystemName                     : 'Windows'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(1)entry="iPhone"'
+        - 'agent.(5)text="Bytespider"'
+      extract:
+        - 'AgentName                          : 2500   : agent.(5)text'
+        - 'OperatingSystemName                : 2500   : "iOS"'
+        - 'DeviceClass                        : 2000   : "Robot"'
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2836.1296 Mobile Safari/537.36; Bytespider'
+      expected:
+        AgentName                               : 'Bytespider'
+        DeviceClass                             : 'Robot'
+        OperatingSystemName                     : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(1)entry="Macintosh"'
+        - 'agent.(5)text="Bytespider"'
+      extract:
+        - 'AgentName                          : 2500   : agent.(5)text'
+        - 'OperatingSystemName                : 2500   : "Mac OS"'
+        - 'DeviceClass                        : 2000   : "Robot"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.3262.1181 Safari/537.36; Bytespider'
+      expected:
+        AgentName                               : 'Bytespider'
+        DeviceClass                             : 'Robot'
+        OperatingSystemName                     : 'Mac OS'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(1)entry="Macintosh"'
+        - 'agent.(5)text="Bytespider"'
+      extract:
+        - 'AgentName                          : 2500   : agent.(5)text'
+        - 'OperatingSystemName                : 2500   : "Mac OS"'
+        - 'DeviceClass                        : 2000   : "Robot"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)product.(1)name{"Windows"'
+        - 'agent.(4)product.(1)comments.(1)entry="StatusCake"'
+      extract:
+        - 'AgentName                          : 2500   : agent.(4)product.(1)comments.(1)entry'
+        - 'OperatingSystemName                : 2500   : "Windows"'
+        - 'DeviceClass                        : 2000   : "Robot"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/98 Safari/537.4 (StatusCake)'
+      expected:
+        AgentName                               : 'StatusCake'
+        DeviceClass                             : 'Robot'
+        OperatingSystemName                     : 'Windows'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="WhatsApp"'
+        - 'IsNull[agent.(1)product.(1)comments.(3)entry]'
+      extract:
+        - 'AgentName                          : 1000   : "Robot"'
+        - 'OperatingSystemName                : 1000   : "Unknown"'
+        - 'DeviceClass                        : 1000   : "Robot"'
+
+  - test:
+      input:
+        user_agent_string: 'WhatsApp/2.19.175 A'
+      expected:
+        AgentName                               : 'Robot'
+        DeviceClass                             : 'Robot'
+        OperatingSystemName                     : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(3)entry="http://www.whatsapp.com/contact"'
+      extract:
+        - 'OperatingSystemName                : 1000   : "Unknown"'
+        - 'DeviceClass                        : 1000   : "Unknown"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (compatible; WAChat/1.2; +http://www.whatsapp.com/contact)'
+      expected:
+        AgentName                               : 'WAChat'
+        DeviceClass                             : 'Unknown'
+        OperatingSystemName                     : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name?Bots'
+      extract:
+        - 'DeviceClass                        :   2000 : "Robot"'
+        - 'AgentName                          :   2000 :  agent.(1)product.(1)name'
+        - 'OperatingSystemName                :   2000 : "Unknown"'
+
+  - test:
+      input:
+        user_agent_string                    : 'Go-http-client/1.1'
+      expected:
+        AgentName                            : 'Go-http-client'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'fyyd-poll/0.1c'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'fyyd-poll'
+        OperatingSystemName                   : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Apache-HttpClient/4.5.2 (Java/1.8.0_181)'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'Apache-HttpClient'
+        OperatingSystemName                   : 'Unknown'
+
+
+  - test:
+      input:
+        user_agent_string: 'Python-urllib/3.6'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'Python-urllib'
+        OperatingSystemName                   : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)text?LibsynBots'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+      extract:
+        - 'DeviceClass                        :   2000 : "Robot"'
+        - 'OperatingSystemName                :   2000 : "Unknown"'
+        - 'AgentName                          :   1000 : "LibsynBot"'
+
+  - test:
+      input:
+        user_agent_string: 'Libsyn4-Download'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'LibsynBot'
+        OperatingSystemName                   : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Libsyn4-Peek'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'LibsynBot'
+        OperatingSystemName                   : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Libsyn4Peek'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'LibsynBot'
+        OperatingSystemName                   : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Libsyn4-peek'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'LibsynBot'
+        OperatingSystemName                   : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Libsyn3'
+      expected:
+        DeviceClass                           : 'Robot'
+        AgentName                             : 'LibsynBot'
+        OperatingSystemName                   : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="okhttp"'
+      extract:
+        - 'DeviceClass                        :   2000 : "Robot"'
+        - 'OperatingSystemName                :   2000 : "Android"'
+        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string                    : 'okhttp/2.7.5'
+      expected:
+        AgentName                            : 'okhttp'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Android'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="LinkedInBot"'
+        - 'agent.(1)product.(1)comments.(3)entry.(1)product.(1)name="Apache-HttpClient"'
+        - 'agent.(1)product.(1)comments.(3)entry.(1)product.(1)version.(1)url="http://www.linkedin.com"'
+      extract:
+        - 'DeviceClass                        :   1000 : "Robot"'
+        - 'OperatingSystemName                :   1000 : "Unknown"'
+        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string                    : 'LinkedInBot/1.0 (compatible; Mozilla/5.0; Apache-HttpClient +http://www.linkedin.com)'
+      expected:
+        AgentName                            : 'LinkedInBot'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(1)product.(1)comments.(4)entry="web-crawlers+links@hubspot.com"'
+      extract:
+        - 'DeviceClass                        :   1000 : "Robot"'
+        - 'OperatingSystemName                :   1000 : agent.(1)product.(1)comments.(2)entry.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (X11; Linux x86_64; HubSpot Single Page link check; web-crawlers+links@hubspot.com) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+      expected:
+        AgentName                            : 'Chrome'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Linux'
+
+  - matcher:
+      require:
+        - 'agent.(1)text{"Lavf"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+      extract:
+        - 'DeviceClass                        :   2000 : "Unknown"'
+        - 'OperatingSystemName                :   2000 : "Unknown"'
+        - 'AgentName                          :   1000 : "ffmpeg"'
+
+  - test:
+      input:
+        user_agent_string: 'Lavf52.104.0'
+      expected:
+        AgentName                            : 'ffmpeg'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="GuzzleHttp"'
+        - 'agent.(2)product.(1)name="curl"'
+        - 'agent.(3)product.(1)name="PHP"'
+        - 'agent.(3)product.(1)version~"ubuntu"'
+      extract:
+        - 'DeviceClass                        :   3500 : "Robot"'
+        - 'OperatingSystemName                :   3500 : "Linux"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'GuzzleHttp/6.1.0 curl/7.50.1 PHP/7.0.13-0ubuntu0.16.10.1'
+      expected:
+        AgentName                            : 'GuzzleHttp'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Linux'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Bullhorn"'
+        - 'agent.(1)product.(1)comments.(1)entry="http://bullhorn.fm/"'
+      extract:
+        - 'DeviceClass                        :   3500 : "Unknown"'
+        - 'OperatingSystemName                :   3500 : "Unknown"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'Bullhorn/1.0 (+http://bullhorn.fm/)'
+      expected:
+        AgentName                            : 'Bullhorn'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)text{"SoundWaves"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'DeviceClass                        :   3500 : "Mobile"'
+        - 'OperatingSystemName                :   3500 : "Android"'
+        - 'AgentName                          :   3000 : "SoundWaves"'
+
+  - test:
+      input:
+        user_agent_string: 'SoundWaves-0.160.2'
+      expected:
+        AgentName                            : 'SoundWaves'
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'Android'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)text="TuneIn Radio"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'DeviceClass                        :   3500 : "Unknown"'
+        - 'OperatingSystemName                :   3500 : "Unknown"'
+        - 'AgentName                          :   1000 : agent.(1)text'
+
+  - test:
+      input:
+        user_agent_string: 'TuneIn Radio'
+      expected:
+        AgentName                            : 'TuneIn Radio'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+  - matcher:
+      require:
+        - 'agent.(1)text="myTuner Radio Pro"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'DeviceClass                        :   3500 : "Unknown"'
+        - 'OperatingSystemName                :   3500 : "Unknown"'
+        - 'AgentName                          :   1000 : agent.(1)text'
+
+  - test:
+      input:
+        user_agent_string: 'myTuner Radio Pro'
+      expected:
+        AgentName                            : 'myTuner Radio Pro'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+
+
+  - matcher:
+      require:
+        - 'agent.(2)product.(1)name="Alamofire"'
+        - 'agent.(1)product.(1)comments.(3)entry.(1)product.(1)name="iOS"'
+      extract:
+        - 'AgentName                          : 1000   :  agent.(1)product.(1)name'
+        - 'DeviceClass                        : 1000   :  "Mobile"'
+        - 'OperatingSystemName                : 1000   :  agent.(1)product.(1)comments.(3)entry.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'Radio.com/8.7.1 (com.cbsradio.cbsradioplayer; build:1; iOS 12.3.1) Alamofire/4.5.0'
+      expected:
+        DeviceClass                             : 'Mobile'
+        AgentName                               : 'Radio.com'
+        OperatingSystemName                     : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'OwlTail/1.3 (com.owltail.app; build:19; iOS 12.3.1) Alamofire/4.7.3'
+      expected:
+        DeviceClass                             : 'Mobile'
+        AgentName                               : 'OwlTail'
+        OperatingSystemName                     : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)text="NPROneAndroid"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'DeviceClass                        :   3500 : "Mobile"'
+        - 'OperatingSystemName                :   3500 : "Android"'
+        - 'AgentName                          :   1000 : agent.(1)text'
+
+  - test:
+      input:
+        user_agent_string: 'NPROneAndroid'
+      expected:
+        AgentName                            : 'NPROneAndroid'
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'Android'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="RadioPublic iOS"'
+      extract:
+        - 'DeviceClass                        :   3500 : "Mobile"'
+        - 'OperatingSystemName                :   3500 : "iOS"'
+        - 'AgentName                          :   1000 : "RadioPublic"'
+
+  - test:
+      input:
+        user_agent_string: 'RadioPublic iOS 1.9.10'
+      expected:
+        AgentName                            : 'RadioPublic'
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'iOS'
+
+
+
+  - matcher:
+      require:
+        - 'agent.(1)text="Pocket Casts"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'DeviceClass                        :   3500 : "Mobile"'
+        - 'OperatingSystemName                :   3500 : "Unknown"'
+        - 'AgentName                          :   1000 : agent.(1)text'
+
+  - test:
+      input:
+        user_agent_string: 'Pocket Casts'
+      expected:
+        AgentName                            : 'Pocket Casts'
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'Unknown'
+
+  # rocco comments
+  - matcher:
+      require:
+        - 'agent.(1)text="Podcoin"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'AgentName                         :   1000 :  "Podcoin"'
+        - 'DeviceClass                       :   1000 :  "Unknown"'
+        - 'OperatingSystemName                :  1000 : "Unknown"'
+  - test:
+      input:
+        user_agent_string: 'Podcoin'
+      expected:
+        AgentName                            : 'Podcoin'
+        DeviceClass                          : 'Unknown'
+        OperatingSystemName                  : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)text="AmazonNewsContentService"'
+        - 'IsNull[agent.(1)product.(1)version]'
+        - 'IsNull[agent.(1)product.(1)comments]'
+        - 'IsNull[agent.url]'
+        - 'IsNull[agent.product]'
+      extract:
+        - 'AgentName                         :   1000 :  "Alexa Media Player"'
+        - 'DeviceClass                       :   1000 :  "Smart Speaker"'
+        - 'OperatingSystemName                :  1000 : "Amazon Alexa"'
+  - test:
+      input:
+        user_agent_string: 'AmazonNewsContentService'
+      expected:
+        AgentName                            : 'Alexa Media Player'
+        DeviceClass                          : 'Smart Speaker'
+        OperatingSystemName                  : 'Amazon Alexa'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Miro"'
+        - 'agent.(1)product.(1)comments.(2)entry.(1)product.(1)name="Windows"'
+        - 'agent.(1)product.(1)comments.(1)entry="http://www.getmiro.com/"'
+      extract:
+        - 'AgentName                         :   1000 : "Miro"'
+        - 'DeviceClass                       :   1000 : "Desktop"'
+        - 'OperatingSystemName                :  1000 : "Windows"'
+  - test:
+      input:
+        user_agent_string: 'Miro/6.0 (http://www.getmiro.com/; Windows post2008Server x86)'
+      expected:
+        AgentName                            : 'Miro'
+        DeviceClass                          : 'Desktop'
+        OperatingSystemName                  : 'Windows'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="curl"'
+      extract:
+        - 'DeviceClass                        :   3500 : "Robot"'
+        - 'OperatingSystemName                :   3500 : "Unknown"'
+        - 'AgentName                          :   1000 : agent.(1)product.(1)name'
+
+  - test:
+      input:
+        user_agent_string: 'curl/7.51.0'
+      expected:
+        AgentName                            : 'curl'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Unknown'
+  - test:
+      input:
+        user_agent_string: 'curl/7.19.4%20(i386-redhat-linux-gnu)%20libcurl/7.19.4%20NSS/3.12.2.0%20zlib/1.2.3%20libidn/0.6.14%20libssh2/0.18'
+      expected:
+        AgentName                            : 'curl'
+        DeviceClass                          : 'Robot'
+        OperatingSystemName                  : 'Unknown'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="python-requests"'
+        - 'IsNull[agent.(2)product.(1)name]'
+      extract:
+        - 'DeviceClass                        : 2000  : "Robot"'
+  - test:
+      input:
+        user_agent_string: 'python-requests/2.18.1'
+      expected:
+        DeviceClass                          : 'Robot'
+        AgentName                            : 'python-requests'
+        OperatingSystemName                  : 'Unknown'
+
+  ### Facebook
+  - matcher:
+      require:
+        - 'agent.product.comments.entry.(1)product.(1)name="FBAN"'
+      extract:
+        - 'AgentName                          :   4000 :"Facebook"'
+
+  - matcher:
+      require:
+        - 'agent.product.comments.entry.(1)product.(1)name="FB_IAB"'
+      extract:
+        - 'AgentName                          :   4000 :"Facebook"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 4.4.2; GT-I9505 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/28.0.0.20.16;]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPad; CPU OS 8_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12D508 [FBAN/FBIOS;FBAV/27.0.0.10.12;FBBV/8291884;FBDV/iPad4,1;FBMD/iPad;FBSN/iPhone OS;FBSV/8.2;FBSS/2; FBCR/;FBID/tablet;FBLC/nl_NL;FBOP/1]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Tablet'
+        OperatingSystemName : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPad; CPU OS 8_1_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12B435 [FBAN/FBIOS;FBAV/26.0.0.11.13;FBBV/7806348;FBDV/iPad4,2;FBMD/iPad;FBSN/iPhone OS;FBSV/8.1.1;FBSS/2; FBCR/TelfortNL;FBID/tablet;FBLC/nl_NL;FBOP/1]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Tablet'
+        OperatingSystemName : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: '(null) [FBAN/FBIOS;FBAV/50.0.0.47.191;FBBV/23973043;FBDV/iPad4,4;FBMD/iPad;FBSN/iPhone OS;FBSV/8.0.2;FBSS/2; FBCR/;FBID/tablet;FBLC/nl_NL;FBOP/1]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Tablet'
+        OperatingSystemName : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69 [FBAN/MessengerForiOS;FBAV/73.0.0.33.71;FBBV/31011105;FBRV/0;FBDV/iPhone7,2;FBMD/iPhone;FBSN/iPhone OS;FBSV/9.3.2;FBSS/2;FBCR/OrangeB;FBID/phone;FBLC/nl_NL;FBOP/5]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 4.4.4; SM-G901F Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36 [FBAN/FB4A;FBAV/20.0.0.25.15;]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone10,2;FBMD/iPhone;FBSN/iOS;FBSV/12.3.2;FBSS/3;FBCR/Verizon;FBID/phone;FBLC/en_US;FBOP/5]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPad; CPU OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPad5,3;FBMD/iPad;FBSN/iOS;FBSV/12.3.1;FBSS/2;FBCR/;FBID/tablet;FBLC/en_US;FBOP/5]'
+      expected:
+        AgentName           : 'Facebook'
+        DeviceClass         : 'Tablet'
+        OperatingSystemName : 'iOS'
+
+
+  #### BeyondPod
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)comments.(4)entry.(1)text="BeyondPod"'
+      extract:
+        - 'AgentName                          :   4000 :"BeyondPod"'
+        - 'DeviceClass                        :   4000 :"Phone"'
+        - 'OperatingSystemName                :   4000 :"Android"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; U; en-us; BeyondPod)'
+      expected:
+        AgentName           : 'BeyondPod'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)comments.(4)entry.(1)product.(1)name="BeyondPod"'
+      extract:
+        - 'AgentName                          :   4000 :"BeyondPod"'
+        - 'DeviceClass                        :   4000 :"Phone"'
+        - 'OperatingSystemName                :   4000 :"Android"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; U; en-us; BeyondPod 4)'
+      expected:
+        AgentName           : 'BeyondPod'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'Android'
+
+  ### Windows Media Player
+  - matcher:
+      require:
+        - 'agent.product.(1)name="WMFSDK"'
+      extract:
+        - 'AgentName                          :   4000 :"Windows Media Player"'
+        - 'DeviceClass                        :   4000 :"Desktop"'
+        - 'OperatingSystemName                :   4000 :"Windows"'
+
+  - test:
+      input:
+        user_agent_string: 'NSPlayer/12.00.18362.0175 WMFSDK/12.00.18362.0175'
+      expected:
+        AgentName           : 'Windows Media Player'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AppleCoreMedia"'
+        - 'agent.(1)product.(1)comments.(1)entry?AppleTV'
+        - 'agent.(1)product.(1)comments.(3)entry.(2)text="like Mac OS X"'
+      extract:
+        - 'DeviceClass                        : 2000  : "TV"'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16M153 (Apple TV; U; CPU OS 12_3 like Mac OS X; en_us)'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16L250 (Apple TV; U; CPU OS 12_2_1 like Mac OS X; he_il)'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16M153 (AppleTV; U; CPU OS 12_3 like Mac OS X; en_us)'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16M153 (Apple tv; U; CPU OS 12_3 like Mac OS X; en_us)'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AppleCoreMedia"'
+        - 'agent.(1)product.(1)comments.(1)entry="HomePod"'
+        - 'agent.(1)product.(1)comments.(3)entry.(2)text="like Mac OS X"'
+      extract:
+        - 'DeviceClass                        : 2000  : "Smart Speaker"'
+        - 'AgentName                          : 2000  : "Apple Podcasts"'
+
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16F156 (HomePod; U; CPU OS 12_3 like Mac OS X; es_es)'
+      expected:
+        DeviceClass                          : 'Smart Speaker'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Mozilla"'
+        - 'agent.(2)product.(1)name="AppleWebKit"'
+        - 'agent.(3)product.(1)name="Chrome"'
+        - 'agent.(4)product.(1)name="Safari"'
+        - 'agent.(5)product.(1)name="CrKey"'
+      extract:
+        - 'DeviceClass                        : 3000  : "TV"'
+        - 'AgentName                          : 3000  : "Chromecast"'
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.47 Safari/537.36 CrKey/1.36.146299'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Chromecast'
+        OperatingSystemName                  : 'Linux'
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 8.0; Build/OPR6.170623.010) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.47 Safari/537.36 CrKey/1.36.154871'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Chromecast'
+        OperatingSystemName                  : 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Roku"'
+      extract:
+        - 'DeviceClass                        : 2000  : "TV"'
+        - 'AgentName                          : 2000  : agent.(1)product.(1)name'
+        - 'OperatingSystemName                : 1000 : "Roku OS"'
+  - test:
+      input:
+        user_agent_string: 'Roku/DVP-9.10 (049.10E04111A)'
+      expected:
+        DeviceClass                          : 'TV'
+        AgentName                            : 'Roku'
+        OperatingSystemName                  : 'Roku OS'
+
+  #### iTunes Mac OS X
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="iTunes"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)text="Macintosh"'
+      extract:
+        - 'AgentName                          :   4000 :"iTunes"'
+        - 'DeviceClass                        :   4000 :"Desktop"'
+        - 'OperatingSystemName                :   4000 :"Mac OS"'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.9.5 (Macintosh; OS X 10.14.5) AppleWebKit/607.2.6.1.1'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Mac OS'
+
+  #### iTunes Windows
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="iTunes"'
+        - 'agent.(1)product.(1)comments.(1)entry.(1)text="Windows"'
+      extract:
+        - 'AgentName                          :   4000 :"iTunes"'
+        - 'DeviceClass                        :   4000 :"Desktop"'
+        - 'OperatingSystemName                :   4000 :"Windows"'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.9.5 (Windows; Microsoft Windows 10 x64 Home Premium Edition (Build 17134); x64) AppleWebKit/7607.2006.2001.1'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.9.5 (Windows; Microsoft Windows 10 x64 (Build 17763); x64) AppleWebKit/7607.2006.2001.1'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.8 (Windows; Microsoft Windows 7 x64 Ultimate Edition Service Pack 1 (Build 7601); x64) AppleWebKit/7605.3008.0.20'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.4.3 (Windows; Microsoft Windows 8.1 Home Premium Edition (Build 9200)) AppleWebKit/7601.6016.1000.7'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.2.2 (Windows; Microsoft Windows 8 x64 Home Premium Edition (Build 9200); x64) AppleWebKit/7605.3008.0.20'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/9.2.1 (Windows; (Build 9200)) AppleWebKit/533.16'
+      expected:
+        AgentName           : 'iTunes'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Windows'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AppleCoreMedia"'
+        - 'agent.(1)product.(1)comments.(1)entry="iPod"'
+      extract:
+        - 'DeviceClass                        : 2000  : "Mobile"'
+
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.8C148 (iPod; U; CPU OS 4_2_1 like Mac OS X; en_us)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AppleCoreMedia"'
+        - 'agent.(1)product.(1)comments.(1)entry="iPod touch"'
+      extract:
+        - 'DeviceClass                        : 2000  : "Mobile"'
+
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.9A405 (iPod touch; U; CPU OS 5_0_1 like Mac OS X; en_us)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        AgentName                            : 'Apple Podcasts'
+        OperatingSystemName                  : 'iOS'
+
+  # All AppleCoreMedia* agents considered to be Apple Podcasts
+  - matcher:
+      require:
+        - 'agent.product.name~"AppleCoreMedia"'
+      extract:
+        - 'AgentName                          :   5000 :"Apple Podcasts"'
+
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.11D258 (Apple TV; U; CPU OS 7_1_2 like Mac OS X; en_us)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'TV'
+        OperatingSystemName : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16M153 (Apple TV; U; CPU OS 12_3 like Mac OS X; en_us)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'TV'
+        OperatingSystemName : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16S46 (Apple Watch; U; CPU OS 5_1_2 like Mac OS X; en_us)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Smart Watch'
+        OperatingSystemName : 'WatchOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.16D39 (HomePod; U; CPU OS 12_1_3 like Mac OS X; es_es)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Smart Speaker'
+        OperatingSystemName : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.10A523 (iPad; U; CPU OS 6_0_1 like Mac OS X; en_gb)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Tablet'
+        OperatingSystemName : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.10A523 (iPhone; U; CPU OS 6_0_1 like Mac OS X; en_us)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Phone'
+        OperatingSystemName : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.10A523 (iPod; U; CPU OS 6_0_1 like Mac OS X; en_us)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Mobile'
+        OperatingSystemName : 'iOS'
+  - test:
+      input:
+        user_agent_string: 'AppleCoreMedia/1.0.0.11G63 (Macintosh; U; Intel Mac OS X 10_7_5; en_us)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Desktop'
+        OperatingSystemName : 'Mac OS X'
+  - test:
+      input:
+        user_agent_string: '(null)/(null) watchOS/5.0 model/Watch2,3 hwp/t8002 build/16R364 (6; dt:133)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Smart Watch'
+        OperatingSystemName : 'WatchOS'
+  - test:
+      input:
+        user_agent_string: 'atc/1.0 watchOS/5.1.2 model/Watch2,3 hwp/t8002 build/16S46 (6; dt:133)'
+      expected:
+        AgentName           : 'Apple Podcasts'
+        DeviceClass         : 'Smart Watch'
+        OperatingSystemName : 'WatchOS'
+
+
+      ########## Spreaker Android world
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker for Android"'
+        - 'agent.(1)product.(3)version.(1)keyvalue.(2)text="phone"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker for Android"'
+        - 'IsNull[agent.(1)product.(3)version.(1)keyvalue.(2)text]'
+        - 'agent.(1)product.(1)comments.(1)entry!="Android SMART_TV"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Mobile"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker for Android"'
+        - 'IsNull[agent.(1)product.(3)version.(1)keyvalue.(2)text]'
+        - 'agent.(1)product.(1)comments.(1)entry="Android SMART_TV"'
+      extract:
+        - 'DeviceClass                         :   2000 :"TV"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker Studio for Android"'
+        - 'agent.(1)product.(3)version.(1)keyvalue.(2)text="phone"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 :"Spreaker Studio"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker for Android"'
+        - 'agent.(1)product.(3)version.(1)keyvalue.(2)text="tablet"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Tablet"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker Studio for Android"'
+        - 'agent.(1)product.(3)version.(1)keyvalue.(2)text="tablet"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Tablet"'
+        - 'AgentName                           :   1000 :"Spreaker Studio"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker Custom App for Android"'
+        - 'agent.(1)product.(3)version.(1)keyvalue.(2)text="phone"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 :"Spreaker Custom App"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.name="Spreaker Custom App for Android"'
+        - 'agent.(1)product.(3)version.(1)keyvalue.(2)text="tablet"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Tablet"'
+        - 'AgentName                           :   1000 :"Spreaker Custom App"'
+        - 'OperatingSystemName                 :   1000 :"Android"'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker for Android 4.10.5 release:2018-12-03 device:phone (google Pixel 2; Android 9; it_IT)'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Radio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker for Android 5.3.2 release:2018-12-03 device:phone (google Pixel 2; Android 9; it_IT)'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Radio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker for Android 4.4.0 release:2017-01-30 device:tablet (google Nexus 9; Android 7.1.1; en_US)")'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Radio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Studio for Android 4.4.0-DEV release:2017-01-30 device:phone (google Nexus 9; Android 7.1.1; en_US)")'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Studio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Studio for Android 4.4.0-DEV release:2017-01-30 device:tablet (google Nexus 9; Android 7.1.1; en_US)")'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Studio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Custom App for Android 5.2.3 release:2018-07-26 device:phone (google Pixel 2; Android 9; en_US)'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Custom App'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Custom App for Android 5.2.3 release:2018-07-26 device:tablet (google Nexus 9; Android 7.1.1; en_US)'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Custom App'
+
+
+  ########## Spreaker Apple world
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spreaker"'
+        - 'agent.(1)product.(1)comments{"(iPhone"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spreaker"'
+        - 'agent.(1)product.(1)comments{"(iPad"'
+      extract:
+        - 'DeviceClass                         :   3000 :"Tablet"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spreaker"'
+        - 'agent.(1)product.(1)comments{"(iPod"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Mobile"'
+        - 'AgentName                           :   1000 :"Spreaker Radio"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker 7.16.1 rv:1283 (iPhone9,4; iOS 11.4.1; it_IT) SPKAudioPlayer'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Radio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker 1.0.2 (iPhone; iPhone OS 4.2.1; it_IT)'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Radio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker 1.2 rv:1.2.0 (iPod touch; iPhone OS 4.2.1; en_GB)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Radio'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker 7.8 rv:1261 (iPad5,3; iOS 12.3.1; en_US)'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Radio'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Studio"'
+        - 'agent.(1)product.(1)comments{"(iPhone"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 :"Spreaker Studio"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Studio"'
+        - 'agent.(1)product.(1)comments{"(iPad"'
+      extract:
+        - 'DeviceClass                         :   3000 :"Tablet"'
+        - 'AgentName                           :   1000 :"Spreaker Studio"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+
+  - test:
+      input:
+        user_agent_string: 'Studio 3.0 rv:259 (iPhone3,3; iPhone OS 7.1.2; en_US)'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Studio'
+
+  - test:
+      input:
+        user_agent_string: 'Studio 3.0.1 rv:260 (iPad3,4; iPhone OS 8.2; es_MX)'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Studio'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spreaker Custom App for iOS"'
+        - 'agent.(1)product.(1)comments{"(iPod"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Mobile"'
+        - 'AgentName                           :   1000 :"Spreaker Custom App"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spreaker Custom App for iOS"'
+        - 'agent.(1)product.(1)comments{"(iPad"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Tablet"'
+        - 'AgentName                           :   1000 :"Spreaker Custom App"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Spreaker Custom App for iOS"'
+        - 'agent.(1)product.(1)comments{"(iPhone"'
+      extract:
+        - 'DeviceClass                         :   2000 :"Phone"'
+        - 'AgentName                           :   1000 :"Spreaker Custom App"'
+        - 'OperatingSystemName                 :   1000 :"iOS"'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Custom App for iOS 1.0 rv:2 (iPod5,1; iPhone OS 8.2; en_US)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Custom App'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Custom App for iOS 2.2.2 rv:6302 (iPhone11,6; iOS 12.3.1; en_US)'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Custom App'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker Custom App for iOS 2.0.7 rv:5407 (iPad3,4; iOS 10.3.3; es_MX)'
+      expected:
+        DeviceClass                          : 'Tablet'
+        OperatingSystemName                  : 'iOS'
+        AgentName                            : 'Spreaker Custom App'
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker for Android 4.3.4 release:2016-12-12 (nubia NX595J; Android 7.1.1; zh_CN)'
+      expected:
+        DeviceClass                          : 'Mobile'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Radio'
+
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker for Android 4.2.7 release:2016-05-25 (Android SMART_TV; Android 7.0; en_US)'
+      expected:
+        DeviceClass                          : 'TV'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Spreaker Radio'
+
+
+  - test:
+      input:
+        user_agent_string: 'Spreaker for Android 4.2.7 release:2016-05-25 (LGE Optimus One; Android 4.4.2; es_ES)'
+      expected:
+        DeviceClass: 'Mobile'
+        OperatingSystemName: 'Android'
+        AgentName: 'Spreaker Radio'

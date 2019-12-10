@@ -206,7 +206,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36 CrKey/1.19a.63621'
     expected:
-      DeviceClass                          : 'Set-top box'
+      DeviceClass                          : 'TV'
       DeviceName                           : 'Google Chromecast'
       DeviceBrand                          : 'Google'
       DeviceCpu                            : 'ARMv7l'
@@ -225,7 +225,7 @@ config:
       LayoutEngineNameVersion              : 'Blink 49.0'
       LayoutEngineNameVersionMajor         : 'Blink 49'
       AgentClass                           : 'Browser'
-      AgentName                            : 'Chrome'
+      AgentName                            : 'Chromecast'
       AgentVersion                         : '49.0.2623.87'
       AgentVersionMajor                    : '49'
       AgentNameVersion                     : 'Chrome 49.0.2623.87'

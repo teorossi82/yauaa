@@ -37,7 +37,7 @@ config:
       LayoutEngineNameVersion              : 'AppleWebKit 534.30'
       LayoutEngineNameVersionMajor         : 'AppleWebKit 534'
       AgentClass                           : 'Browser Webview'
-      AgentName                            : 'Chrome Webview'
+      AgentName                            : 'Facebook'
       AgentVersion                         : '25.0.0.19.30'
       AgentVersionMajor                    : '25'
       AgentNameVersion                     : 'Chrome Webview 25.0.0.19.30'
