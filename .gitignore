@@ -69,3 +69,4 @@ docs/gitbook/gitbook-plugin-livereload/
 # Special stuff
 public_suffix_list.dat
 analyzer/pitest/
+/analyzer/src/test/resources/AllPossibleSteps.yaml
