@@ -33,6 +33,13 @@ config:
       extract:
         - 'AgentName                         :    2020: "Zune"'
 
+  # MediaGo doesn't have a product fragment
+  - matcher:
+      require:
+        - 'agent.text="MediaGo"'
+      extract:
+        - 'AgentName                         :    2020: "MediaGo"'
+
   - lookup:
       name: 'KnownApplications'
       map:
@@ -266,17 +273,78 @@ config:
         AgentName                              : 'Stitcher'
         OperatingSystemName                    : 'Cloud'
 
+  - test:
+      input:
+        user_agent_string: 'MediaGo'
+      expected:
+        DeviceClass                            : 'Hacker'
+        AgentName                              : 'MediaGo'
+        OperatingSystemName                    : 'Hacker'
 
-    #        "MediaGo"                       : "MediaGo"		MediaGo
-    #        "gPodder"                       : "gPodder"		gPodder/3.10.5 (+http://gpodder.org/) Linux/4.19.82-gentoo		gPodder/3.10.8 (+http://gpodder.org/) Windows/7
-    #        "Podkicker"                     : "Podkicker"	Podkicker/3.0.0
-    #        "Instacast"                     : "Instacast"	Instacast/2621 CFNetwork/811.5.4 Darwin/16.6.0
-    #        "Ivoox"                         : "iVoox"		Ivoox 2.9.2 (iPod touch; iPhone OS 6.1.6; es_VE)
-    #        "Sonos"                         : "Sonos"		Linux UPnP/1.0 Sonos/53.2-70100 (ZPS22)
-    #        "CORE"                          : "Generic Android App"		CORE/6.506.4.1 OpenCORE/2.02 (Linux;Android 2.2.1)
-    #        "Dalvik"                        : "Generic Android App"	Dalvik/2.1.0 (Linux; U; Android 8.1.0; SNE-LX1 Build/HUAWEISNE-LX1)
-    #        "AndroidDownloadManager"        : "Generic Android App"	AndroidDownloadManager/9 (Linux; U; Android 9; SM-G975U Build/PPR1.180610.011)
-    #
+  - test:
+      input:
+        user_agent_string: 'gPodder/3.10.5 (+http://gpodder.org/) Linux/4.19.82-gentoo'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'gPodder'
+        OperatingSystemName                    : 'Linux'
+
+  - test:
+      input:
+        user_agent_string: 'Podkicker/3.0.0'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Podkicker'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Instacast/2621 CFNetwork/811.5.4 Darwin/16.6.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Instacast'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Ivoox 2.9.2 (iPod touch; iPhone OS 6.1.6; es_VE)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'iVoox'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Linux UPnP/1.0 Sonos/53.2-70100 (ZPS22)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Sonos'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'CORE/6.506.4.1 OpenCORE/2.02 (Linux;Android 2.2.1)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Dalvik/2.1.0 (Linux; U; Android 8.1.0; SNE-LX1 Build/HUAWEISNE-LX1)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'AndroidDownloadManager/9 (Linux; U; Android 9; SM-G975U Build/PPR1.180610.011)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
     #        "AntennaPod"                    : "AntennaPod"		AntennaPod/1.7.3
     #        "iCatcher"                      : "iCatcher"		iCatcher!/6.1.1 (iPhone; iOS 13.1.2; Scale/3.0)
     #        "PodCruncher"                   : "PodCruncher"			PodCruncher/3.7.1 CFNetwork/889.9 Darwin/17.2.0
@@ -297,7 +365,6 @@ config:
     #        "HTC Streaming Player htc"      : "HTC Music"		HTC Streaming Player htc / 1.0 / htc_asia_wwe / 4.2.2
     #        "iHeartRadio"                   : "iHeartRadio"			iHeartRadio/8.16.1 (Android 5.1.1; SM-T900 Build/LMY47X)
     #        "itunesstored"                  : "iTunes"				itunesstored/1.0 iOS/9.2 model/iPhone8,2 hwp/s8003 build/13C75 (6; dt:142)
-    #
     #        "MediaMonkey"                   : "MediaMonkey"			MediaMonkey 4.1.11.1783
     #        "Mixcloud"                      : "Mixcloud"			Mixcloud/20.2.4 (Linux;Android 8.1.0) ExoPlayerLib/2.8.1
     #        "MixcloudPodcastImporter"       : "Mixcloud"		MixcloudPodcastImporter/2.0
