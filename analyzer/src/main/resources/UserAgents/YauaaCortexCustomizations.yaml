@@ -37,6 +37,7 @@ config:
         "iTunes-iPod"                   : "iTunes"
         "iTunes-iPad-M"                 : "iTunes"
         "iTunes-iPad"                   : "iTunes"
+        "LibVLC"                        : "VLC"
         "vlc"                           : "VLC"
         "VLC media player - version"    : "VLC"
         "Ares"                          : "Ares"
@@ -106,6 +107,179 @@ config:
         "MediaAnalyzer/podCloud"        : "podCloud"
         "RMA"                           : "RealPlayer"
 
+  - test:
+      input:
+        user_agent_string: 'NSPlayer/11.0.5721.5145 WMFSDK/11.0'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'Windows Media Player'
+        OperatingSystemName                    : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'Windows-Media-Player/12.0.7600.16667'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Windows Media Player'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Audacious/3.10.1 neon/0.30.2'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Audacious'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/4.7.1 (Unix; N; linux; x86_64-linux; EN; utf8) SqueezeNetwork/7.7.7-sn/TRUNK'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Linux'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.9.5 (Macintosh; OS X 10.14.5) AppleWebKit/607.2.6.1.1 (dt:1)'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Mac OS'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes/12.10.2 (Windows; Microsoft Windows Server 2016 x64 Datacenter Edition (Build 14393); x64) AppleWebKit/7608.3010.1004.4'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes-iPod/5.1.1 (3; 32GB; dt:25)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes-iPad-M/5.1.1 (64GB; dt:28)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes-iPhone/4.2.1 (4; 32GB)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'LibVLC/2.0.1 (Linux; U; Android 9;greatlte/PPR1.180610.011)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'VLC'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'VLC/2.2.0-git LibVLC/2.2.0-git (Radioline)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'VLC'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'vlc/1.1.4 LibVLC/1.1.4'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'VLC'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'VLC media player - version 1.0.5 Goldeneye - (c) 1996-2010 the VideoLAN team'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'VLC'
+        OperatingSystemName                    : 'Unknown'
+
+
+    #        "Ares"                          : "Ares"		Ares 2.1.7.3041
+    #        "Overcast"                      : "Overcast"	Overcast/3.0 (+http://overcast.fm/; iOS podcast app)
+    #        "Zune"                          : "Zune"		Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC
+    #        "Stitcher"                      : "Stitcher"	Stitcher/iOS
+    #        "stitcherbot"                   : "Stitcher"	StitcherBot (MP3 Search Bot for Stitcher Personalized Radio Service)
+    #        "MediaGo"                       : "MediaGo"		MediaGo
+    #        "gPodder"                       : "gPodder"		gPodder/3.10.5 (+http://gpodder.org/) Linux/4.19.82-gentoo		gPodder/3.10.8 (+http://gpodder.org/) Windows/7
+    #        "Podkicker"                     : "Podkicker"	Podkicker/3.0.0
+    #        "Instacast"                     : "Instacast"	Instacast/2621 CFNetwork/811.5.4 Darwin/16.6.0
+    #        "Ivoox"                         : "iVoox"		Ivoox 2.9.2 (iPod touch; iPhone OS 6.1.6; es_VE)
+    #        "Sonos"                         : "Sonos"		Linux UPnP/1.0 Sonos/53.2-70100 (ZPS22)
+    #        "CORE"                          : "Generic Android App"		CORE/6.506.4.1 OpenCORE/2.02 (Linux;Android 2.2.1)
+    #        "Dalvik"                        : "Generic Android App"	Dalvik/2.1.0 (Linux; U; Android 8.1.0; SNE-LX1 Build/HUAWEISNE-LX1)
+    #        "AndroidDownloadManager"        : "Generic Android App"	AndroidDownloadManager/9 (Linux; U; Android 9; SM-G975U Build/PPR1.180610.011)
+    #
+    #        "AntennaPod"                    : "AntennaPod"		AntennaPod/1.7.3
+    #        "iCatcher"                      : "iCatcher"		iCatcher!/6.1.1 (iPhone; iOS 13.1.2; Scale/3.0)
+    #        "PodCruncher"                   : "PodCruncher"			PodCruncher/3.7.1 CFNetwork/889.9 Darwin/17.2.0
+    #        "Radioline"                     : "Radioline"		Radioline 2/5.8.4 CFNetwork/978.0.7 Darwin/18.7.0
+    #        "Acast"                         : "Acast"				Acast/2.6.0 (Phone; iOS 12.4.1; iPhone8,1)
+    #        "APKXDL"                        : "Generic Android App"	APKXDL (Linux; U; Android 8.0.0;de; hero2lte/R16NW) Downloader
+    #        "Audioteka"                     : "Audioteka"		Audioteka/423 CFNetwork/902.2 Darwin/17.7.0
+    #        "bPod"                          : "Blackberry"		bPod
+    #        "Castamatic"                    : "Castamatic"	Castamatic/3084 CFNetwork/1107.1 Darwin/19.0.0
+    #        "CastBox"                       : "CastBox"		CastBox/5.10.3-191018042.rfd6f0bb (Linux;Android 7.0)
+    #        "Castro"                        : "Castro"		Castro 2019.8/1150
+    #        "Clementine"                    : "Clementine"	Clementine 1.3.1-390-g9a5bcb7a3 Clementine 1.3.1-390-g9a5bcb7a3
+    #        "Downcast"                      : "Downcast"		Downcast/2.9.32 (iPod touch; iOS 11.0.3; Scale/2.00)
+    #        "EMAudioPlayer"                 : "Generic Android App"		EMAudioPlayer 2.9.1 (655) / Android 4.4.2 / X9006
+    #        "ExoPlayerDemo"                 : "Generic Android App"	ExoPlayerDemo/1.0 (Linux;Android 7.1.2) ExoPlayerLib/1.5.4
+    #        "ExoPlayerWrapper"              : "Generic Android App"		ExoPlayerWrapper/4.2.12 (Linux;Android 9) ExoPlayerLib/2.4.3
+    #        "FFmpegMediaPlayer"             : "FFmpeg"				FFmpegMediaPlayer
+    #        "HTC Streaming Player htc"      : "HTC Music"		HTC Streaming Player htc / 1.0 / htc_asia_wwe / 4.2.2
+    #        "iHeartRadio"                   : "iHeartRadio"			iHeartRadio/8.16.1 (Android 5.1.1; SM-T900 Build/LMY47X)
+    #        "itunesstored"                  : "iTunes"				itunesstored/1.0 iOS/9.2 model/iPhone8,2 hwp/s8003 build/13C75 (6; dt:142)
+    #
+    #        "MediaMonkey"                   : "MediaMonkey"			MediaMonkey 4.1.11.1783
+    #        "Mixcloud"                      : "Mixcloud"			Mixcloud/20.2.4 (Linux;Android 8.1.0) ExoPlayerLib/2.8.1
+    #        "MixcloudPodcastImporter"       : "Mixcloud"		MixcloudPodcastImporter/2.0
+    #        "Podbean"                       : "Podbean"			Podbean/Android App 7.4.7 (http://podbean.com),2b9f3bee5269557c63df05e127440a37
+    #        "Podcast Addict - Dalvik"       : "PodcastAddict"	Podcast Addict - Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A6000 Build/QKQ1.190716.003)
+    #        "PodcastAddict"                 : "PodcastAddict"	PodcastAddict/v2 - Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29)
+    #        "Podkicker Classic"             : "Podkicker"		Podkicker Classic/1.2.9
+    #        "Podkicker Pro"                 : "Podkicker"		Podkicker Pro/3.0.2
+    #        "RSSRadio"                      : "RSSRadio"		RSSRadio/9418 (iPad;iOS;12.4.3)
+    #        "Spotify"                       : "Spotify"		Spotify/8.5.33 Android/23 (SAMSUNG-SM-G900A) Dynamo/1.0
+    #        "StitcherBot"                   : "Stitcher"	StitcherBot (MP3 Search Bot for Stitcher Personalized Radio Service)
+    #        "Trunews"                       : "Trunews"			Trunews/1.191.333.723.28 CFNetwork/901.1 Darwin/17.6.0
+    #        "UCast"                         : "UCast"		UCast/1.0 Podcast Sync (1 subscribers; feed-id=aHR0cHM6Ly93d3cuc3ByZWFrZXIuY29tL3Nob3cvMzMwOTIxNC9lcGlzb2Rlcy9mZWVk5AE3C22E-DCB8-47F9-B924-8ED3F02792F9; +http://www.ucastapp.com/)
+    #        "WeCast"                        : "WeCast"		WeCast/4.39 CFNetwork/672.1.15 Darwin/14.0.0
+    #        "WinampMPEG"                    : "Winamp"	WinampMPEG/5.50
+    #        "ivooxNew"                      : "iVoox"		ivooxNew/6 CFNetwork/1107.1 Darwin/19.0.0
+    #        "Roku"                          : "Roku"		Roku/DVP-7.53 (077.53E04110A)
+    #        "WMPlayer"                      : "Windows Media Player"		WMPlayer/10.0.0.364 guid/3300AD50-2C39-46C0-AE0A-AC7B8159E203
+    #        "Ask Pastor John"               : "Ask Pastor John"		Ask Pastor John/464 CFNetwork/1098.7 Darwin/19.0.0
+    #        "The Karel Cast"                : "The Karel Cast"		The Karel Cast /1.50.52.181.23 CFNetwork/1107.1 Darwin/19.0.0
+    #        "GLOBAL HITS CON ARMANDO PLATA" : "GLOBAL HITS con Armando Plata"		GLOBAL HITS CON ARMANDO PLATA/1 CFNetwork/978.0.7 Darwin/18.7.0
+    #        "Headgum"                       : "Headgum"		Headgum/3 CFNetwork/978.0.7 Darwin/18.6.0
+    #        "iDownloaderPro"                : "iDownloaderPro"	iDownloaderPro/1.0.1 CFNetwork/609.1.4 Darwin/13.0.0
+    #        "MPlayer"                       : "MPlayer"			MPlayer 1.3.0 (Debian), built with gcc-6.2.1
+    #        "Simple Radio"                  : "Simple Radio"	Simple Radio/1258 CFNetwork/758.5.3 Darwin/15.6.0
+    #        "TuneIn Radio Pro"              : "TuneIn Radio"		TuneIn Radio Pro/1224 CFNetwork/978.0.7 Darwin/18.7.0
+    #        "TuneIn Radio"                  : "TuneIn Radio"	TuneIn Radio/1105 CFNetwork/758.5.3 Darwin/15.6.0
+    #        "Juice"                         : "Juice"	Juice/2.22 (Windows) +http://juicereceiver.sf.net/
+    #        "mytuner"                       : "myTuner"		mytuner_podcasts_androidplayer/1.0.2 (Linux;Android 9) ExoPlayerLib/2.8.4
+    #        "MediaAnalyzer/podCloud"        : "podCloud"	MediaAnalyzer/podCloud 1.1 (like iTunes/10.0)
+    #        "RMA"                           : "RealPlayer"	RMA/1.0 (compatible; RealMedia)
+
   - lookup:
       name: 'KnownMediaLibraries'
       map:
@@ -113,7 +287,7 @@ config:
         "okhttp"                    : "Generic Android App"
         "BeyondPod"                 : "BeyondPod"
         "DoggCatcher"               : "DoggCatcher"
-        "FBAV|com.facebook.katana"  : "Facebook"
+        "FBAV"  : "Facebook"
         "Kodi"                      : "Kodi Media Center"
         "XBMC"                      : "Kodi Media Center" # This is the former name of Kodi
         "Winamp"                    : "Winamp"
