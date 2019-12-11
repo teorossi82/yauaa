@@ -78,7 +78,7 @@ config:
       LayoutEngineNameVersion              : 'Trident 4.0'
       LayoutEngineNameVersionMajor         : 'Trident 4'
       AgentClass                           : 'Browser'
-      AgentName                            : 'Internet Explorer'
+      AgentName                            : 'Zune'
       AgentVersion                         : '8.0'
       AgentVersionMajor                    : '8'
       AgentNameVersion                     : 'Internet Explorer 8.0'

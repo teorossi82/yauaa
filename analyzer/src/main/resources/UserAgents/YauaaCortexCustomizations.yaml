@@ -26,6 +26,13 @@ config:
       extract:
         - 'AgentName                         :    200 :LookUp[KnownMediaLibraries;agent.product.name]'
 
+  # Zune can be in product or in comments
+  - matcher:
+      require:
+        - 'agent.product.comments.entry.product.name="Zune"'
+      extract:
+        - 'AgentName                         :    2020: "Zune"'
+
   - lookup:
       name: 'KnownApplications'
       map:
@@ -211,12 +218,55 @@ config:
         AgentName                              : 'VLC'
         OperatingSystemName                    : 'Unknown'
 
+  - test:
+      input:
+        user_agent_string: 'Ares 2.1.7.3041'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Ares'
+        OperatingSystemName                    : 'Unknown'
 
-    #        "Ares"                          : "Ares"		Ares 2.1.7.3041
-    #        "Overcast"                      : "Overcast"	Overcast/3.0 (+http://overcast.fm/; iOS podcast app)
-    #        "Zune"                          : "Zune"		Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC
-    #        "Stitcher"                      : "Stitcher"	Stitcher/iOS
-    #        "stitcherbot"                   : "Stitcher"	StitcherBot (MP3 Search Bot for Stitcher Personalized Radio Service)
+  - test:
+      input:
+        user_agent_string: 'Overcast/3.0 (+http://overcast.fm/; iOS podcast app)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Overcast'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Zune/4.8'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Zune'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; Zune 4.0; Tablet PC 2.0; InfoPath.3; .NET4.0C; .NET4.0E)'
+      expected:
+        DeviceClass                            : 'Tablet'
+        AgentName                              : 'Zune'
+        OperatingSystemName                    : 'Windows NT'
+
+  - test:
+      input:
+        user_agent_string: 'Stitcher/iOS'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Stitcher'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'StitcherBot (MP3 Search Bot for Stitcher Personalized Radio Service)'
+      expected:
+        DeviceClass                            : 'Robot'
+        AgentName                              : 'Stitcher'
+        OperatingSystemName                    : 'Cloud'
+
+
     #        "MediaGo"                       : "MediaGo"		MediaGo
     #        "gPodder"                       : "gPodder"		gPodder/3.10.5 (+http://gpodder.org/) Linux/4.19.82-gentoo		gPodder/3.10.8 (+http://gpodder.org/) Windows/7
     #        "Podkicker"                     : "Podkicker"	Podkicker/3.0.0
