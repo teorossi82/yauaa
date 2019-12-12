@@ -40,6 +40,38 @@ config:
       extract:
         - 'AgentName                         :    2020: "MediaGo"'
 
+  # bPod doesn't have a product fragment
+  - matcher:
+      require:
+        - 'agent.text="bPod"'
+      extract:
+        - 'AgentName                        : 2020: "Blackberry"'
+        - 'DeviceClass                      : 2000: "Phone"'
+        - 'OperatingSystemName              : 2000: "Blackberry"'
+
+  # FFmpegMediaPlayer doesn't have a product fragment
+  - matcher:
+      require:
+        - 'agent.text="FFmpegMediaPlayer"'
+      extract:
+        - 'AgentName                        : 2020: "FFmpeg"'
+        - 'DeviceClass                      : 2000: "Unknown"'
+        - 'OperatingSystemName              : 2000: "Unknown"'
+
+  # Podcast Addict - Dalvik - dash is taken as version separator, so it's not seen as part of product name
+  - matcher:
+      require:
+        - 'agent.product{"Podcast Addict - Dalvik/"'
+      extract:
+        - 'AgentName                        : 2000: "PodcastAddict"'
+
+  # MediaAnalyzer/podCloud - slash is taken as version separator, so it's not seen as part of product name
+  - matcher:
+      require:
+        - 'agent.product{"MediaAnalyzer/podCloud"'
+      extract:
+        - 'AgentName                        : 2000: "podCloud"'
+
   - lookup:
       name: 'KnownApplications'
       map:
@@ -59,7 +91,6 @@ config:
         "Zune"                          : "Zune"
         "Stitcher"                      : "Stitcher"
         "stitcherbot"                   : "Stitcher"
-        "MediaGo"                       : "MediaGo"
         "gPodder"                       : "gPodder"
         "Podkicker"                     : "Podkicker"
         "Instacast"                     : "Instacast"
@@ -69,13 +100,12 @@ config:
         "Dalvik"                        : "Generic Android App"
         "AndroidDownloadManager"        : "Generic Android App"
         "AntennaPod"                    : "AntennaPod"
-        "iCatcher"                      : "iCatcher"
+        "iCatcher!"                     : "iCatcher"
         "PodCruncher"                   : "PodCruncher"
         "Radioline"                     : "Radioline"
         "Acast"                         : "Acast"
         "APKXDL"                        : "Generic Android App"
         "Audioteka"                     : "Audioteka"
-        "bPod"                          : "Blackberry"
         "Castamatic"                    : "Castamatic"
         "CastBox"                       : "CastBox"
         "Castro"                        : "Castro"
@@ -84,7 +114,6 @@ config:
         "EMAudioPlayer"                 : "Generic Android App"
         "ExoPlayerDemo"                 : "Generic Android App"
         "ExoPlayerWrapper"              : "Generic Android App"
-        "FFmpegMediaPlayer"             : "FFmpeg"
         "HTC Streaming Player htc"      : "HTC Music"
         "iHeartRadio"                   : "iHeartRadio"
         "itunesstored"                  : "iTunes"
@@ -92,7 +121,6 @@ config:
         "Mixcloud"                      : "Mixcloud"
         "MixcloudPodcastImporter"       : "Mixcloud"
         "Podbean"                       : "Podbean"
-        "Podcast Addict - Dalvik"       : "PodcastAddict"
         "PodcastAddict"                 : "PodcastAddict"
         "Podkicker Classic"             : "Podkicker"
         "Podkicker Pro"                 : "Podkicker"
@@ -117,8 +145,7 @@ config:
         "TuneIn Radio Pro"              : "TuneIn Radio"
         "TuneIn Radio"                  : "TuneIn Radio"
         "Juice"                         : "Juice"
-        "mytuner"                       : "myTuner"
-        "MediaAnalyzer/podCloud"        : "podCloud"
+        "mytuner_podcasts_androidplayer" : "myTuner"
         "RMA"                           : "RealPlayer"
 
   - test:
@@ -345,58 +372,415 @@ config:
         AgentName                              : 'Generic Android App'
         OperatingSystemName                    : 'Android'
 
-    #        "AntennaPod"                    : "AntennaPod"		AntennaPod/1.7.3
-    #        "iCatcher"                      : "iCatcher"		iCatcher!/6.1.1 (iPhone; iOS 13.1.2; Scale/3.0)
-    #        "PodCruncher"                   : "PodCruncher"			PodCruncher/3.7.1 CFNetwork/889.9 Darwin/17.2.0
-    #        "Radioline"                     : "Radioline"		Radioline 2/5.8.4 CFNetwork/978.0.7 Darwin/18.7.0
-    #        "Acast"                         : "Acast"				Acast/2.6.0 (Phone; iOS 12.4.1; iPhone8,1)
-    #        "APKXDL"                        : "Generic Android App"	APKXDL (Linux; U; Android 8.0.0;de; hero2lte/R16NW) Downloader
-    #        "Audioteka"                     : "Audioteka"		Audioteka/423 CFNetwork/902.2 Darwin/17.7.0
-    #        "bPod"                          : "Blackberry"		bPod
-    #        "Castamatic"                    : "Castamatic"	Castamatic/3084 CFNetwork/1107.1 Darwin/19.0.0
-    #        "CastBox"                       : "CastBox"		CastBox/5.10.3-191018042.rfd6f0bb (Linux;Android 7.0)
-    #        "Castro"                        : "Castro"		Castro 2019.8/1150
-    #        "Clementine"                    : "Clementine"	Clementine 1.3.1-390-g9a5bcb7a3 Clementine 1.3.1-390-g9a5bcb7a3
-    #        "Downcast"                      : "Downcast"		Downcast/2.9.32 (iPod touch; iOS 11.0.3; Scale/2.00)
-    #        "EMAudioPlayer"                 : "Generic Android App"		EMAudioPlayer 2.9.1 (655) / Android 4.4.2 / X9006
-    #        "ExoPlayerDemo"                 : "Generic Android App"	ExoPlayerDemo/1.0 (Linux;Android 7.1.2) ExoPlayerLib/1.5.4
-    #        "ExoPlayerWrapper"              : "Generic Android App"		ExoPlayerWrapper/4.2.12 (Linux;Android 9) ExoPlayerLib/2.4.3
-    #        "FFmpegMediaPlayer"             : "FFmpeg"				FFmpegMediaPlayer
-    #        "HTC Streaming Player htc"      : "HTC Music"		HTC Streaming Player htc / 1.0 / htc_asia_wwe / 4.2.2
-    #        "iHeartRadio"                   : "iHeartRadio"			iHeartRadio/8.16.1 (Android 5.1.1; SM-T900 Build/LMY47X)
-    #        "itunesstored"                  : "iTunes"				itunesstored/1.0 iOS/9.2 model/iPhone8,2 hwp/s8003 build/13C75 (6; dt:142)
-    #        "MediaMonkey"                   : "MediaMonkey"			MediaMonkey 4.1.11.1783
-    #        "Mixcloud"                      : "Mixcloud"			Mixcloud/20.2.4 (Linux;Android 8.1.0) ExoPlayerLib/2.8.1
-    #        "MixcloudPodcastImporter"       : "Mixcloud"		MixcloudPodcastImporter/2.0
-    #        "Podbean"                       : "Podbean"			Podbean/Android App 7.4.7 (http://podbean.com),2b9f3bee5269557c63df05e127440a37
-    #        "Podcast Addict - Dalvik"       : "PodcastAddict"	Podcast Addict - Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A6000 Build/QKQ1.190716.003)
-    #        "PodcastAddict"                 : "PodcastAddict"	PodcastAddict/v2 - Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29)
-    #        "Podkicker Classic"             : "Podkicker"		Podkicker Classic/1.2.9
-    #        "Podkicker Pro"                 : "Podkicker"		Podkicker Pro/3.0.2
-    #        "RSSRadio"                      : "RSSRadio"		RSSRadio/9418 (iPad;iOS;12.4.3)
-    #        "Spotify"                       : "Spotify"		Spotify/8.5.33 Android/23 (SAMSUNG-SM-G900A) Dynamo/1.0
-    #        "StitcherBot"                   : "Stitcher"	StitcherBot (MP3 Search Bot for Stitcher Personalized Radio Service)
-    #        "Trunews"                       : "Trunews"			Trunews/1.191.333.723.28 CFNetwork/901.1 Darwin/17.6.0
-    #        "UCast"                         : "UCast"		UCast/1.0 Podcast Sync (1 subscribers; feed-id=aHR0cHM6Ly93d3cuc3ByZWFrZXIuY29tL3Nob3cvMzMwOTIxNC9lcGlzb2Rlcy9mZWVk5AE3C22E-DCB8-47F9-B924-8ED3F02792F9; +http://www.ucastapp.com/)
-    #        "WeCast"                        : "WeCast"		WeCast/4.39 CFNetwork/672.1.15 Darwin/14.0.0
-    #        "WinampMPEG"                    : "Winamp"	WinampMPEG/5.50
-    #        "ivooxNew"                      : "iVoox"		ivooxNew/6 CFNetwork/1107.1 Darwin/19.0.0
-    #        "Roku"                          : "Roku"		Roku/DVP-7.53 (077.53E04110A)
-    #        "WMPlayer"                      : "Windows Media Player"		WMPlayer/10.0.0.364 guid/3300AD50-2C39-46C0-AE0A-AC7B8159E203
-    #        "Ask Pastor John"               : "Ask Pastor John"		Ask Pastor John/464 CFNetwork/1098.7 Darwin/19.0.0
-    #        "The Karel Cast"                : "The Karel Cast"		The Karel Cast /1.50.52.181.23 CFNetwork/1107.1 Darwin/19.0.0
-    #        "GLOBAL HITS CON ARMANDO PLATA" : "GLOBAL HITS con Armando Plata"		GLOBAL HITS CON ARMANDO PLATA/1 CFNetwork/978.0.7 Darwin/18.7.0
-    #        "Headgum"                       : "Headgum"		Headgum/3 CFNetwork/978.0.7 Darwin/18.6.0
-    #        "iDownloaderPro"                : "iDownloaderPro"	iDownloaderPro/1.0.1 CFNetwork/609.1.4 Darwin/13.0.0
-    #        "MPlayer"                       : "MPlayer"			MPlayer 1.3.0 (Debian), built with gcc-6.2.1
-    #        "Simple Radio"                  : "Simple Radio"	Simple Radio/1258 CFNetwork/758.5.3 Darwin/15.6.0
-    #        "TuneIn Radio Pro"              : "TuneIn Radio"		TuneIn Radio Pro/1224 CFNetwork/978.0.7 Darwin/18.7.0
-    #        "TuneIn Radio"                  : "TuneIn Radio"	TuneIn Radio/1105 CFNetwork/758.5.3 Darwin/15.6.0
-    #        "Juice"                         : "Juice"	Juice/2.22 (Windows) +http://juicereceiver.sf.net/
-    #        "mytuner"                       : "myTuner"		mytuner_podcasts_androidplayer/1.0.2 (Linux;Android 9) ExoPlayerLib/2.8.4
-    #        "MediaAnalyzer/podCloud"        : "podCloud"	MediaAnalyzer/podCloud 1.1 (like iTunes/10.0)
-    #        "RMA"                           : "RealPlayer"	RMA/1.0 (compatible; RealMedia)
+  - test:
+      input:
+        user_agent_string: 'AntennaPod/1.7.3'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'AntennaPod'
+        OperatingSystemName                    : 'Unknown'
 
+  - test:
+      input:
+        user_agent_string: 'iCatcher!/6.1.1 (iPhone; iOS 13.1.2; Scale/3.0)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'iCatcher'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'PodCruncher/3.7.1 CFNetwork/889.9 Darwin/17.2.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'PodCruncher'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Radioline 2/5.8.4 CFNetwork/978.0.7 Darwin/18.7.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Radioline'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Acast/2.6.0 (Phone; iOS 12.4.1; iPhone8,1)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Acast'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'APKXDL (Linux; U; Android 8.0.0;de; hero2lte/R16NW) Downloader'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Audioteka/423 CFNetwork/902.2 Darwin/17.7.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Audioteka'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'bPod'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Blackberry'
+        OperatingSystemName                    : 'Blackberry'
+
+  - test:
+      input:
+        user_agent_string: 'Castamatic/3084 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Castamatic'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'CastBox/5.10.3-191018042.rfd6f0bb (Linux;Android 7.0)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'CastBox'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Castro 2019.8/1150'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Castro'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Clementine 1.3.1-390-g9a5bcb7a3'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Clementine'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Downcast/2.9.32 (iPod touch; iOS 11.0.3; Scale/2.00)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Downcast'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'EMAudioPlayer 2.9.1 (655) / Android 4.4.2 / X9006'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'ExoPlayerDemo/1.0 (Linux;Android 7.1.2) ExoPlayerLib/1.5.4'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'ExoPlayerWrapper/4.2.12 (Linux;Android 9) ExoPlayerLib/2.4.3'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'FFmpegMediaPlayer'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'FFmpeg'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'HTC Streaming Player htc / 1.0 / htc_asia_wwe / 4.2.2'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'HTC Music'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'iHeartRadio/8.16.1 (Android 5.1.1; SM-T900 Build/LMY47X)'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'iHeartRadio'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'itunesstored/1.0 iOS/9.2 model/iPhone8,2 hwp/s8003 build/13C75 (6; dt:142)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'MediaMonkey 4.1.11.1783'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'MediaMonkey'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Mixcloud/20.2.4 (Linux;Android 8.1.0) ExoPlayerLib/2.8.1'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Mixcloud'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'MixcloudPodcastImporter/2.0'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Mixcloud'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Podbean/Android App 7.4.7 (http://podbean.com),2b9f3bee5269557c63df05e127440a37'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Podbean'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Podcast Addict - Dalvik/2.1.0 (Linux; U; Android 10; ONEPLUS A6000 Build/QKQ1.190716.003)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'PodcastAddict'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'PodcastAddict/v2 - Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'PodcastAddict'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Podkicker Classic/1.2.9'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Podkicker'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Podkicker Pro/3.0.2'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Podkicker'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'RSSRadio/9418 (iPad;iOS;12.4.3)'
+      expected:
+        DeviceClass                            : 'Tablet'
+        AgentName                              : 'RSSRadio'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Spotify/8.5.33 Android/23 (SAMSUNG-SM-G900A) Dynamo/1.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Spotify'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'StitcherBot (MP3 Search Bot for Stitcher Personalized Radio Service)'
+      expected:
+        DeviceClass                            : 'Robot'
+        AgentName                              : 'Stitcher'
+        OperatingSystemName                    : 'Cloud'
+
+  - test:
+      input:
+        user_agent_string: 'Trunews/1.191.333.723.28 CFNetwork/901.1 Darwin/17.6.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Trunews'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'UCast/1.0 Podcast Sync (1 subscribers; feed-id=aHR0cHM6Ly93d3cuc3ByZWFrZXIuY29tL3Nob3cvMzMwOTIxNC9lcGlzb2Rlcy9mZWVk5AE3C22E-DCB8-47F9-B924-8ED3F02792F9; +http://www.ucastapp.com/)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'UCast'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'WeCast/4.39 CFNetwork/672.1.15 Darwin/14.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'WeCast'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'WinampMPEG/5.50'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Winamp'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'ivooxNew/6 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'iVoox'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Roku/DVP-7.53 (077.53E04110A)'
+      expected:
+        DeviceClass                            : 'TV'
+        AgentName                              : 'Roku'
+        OperatingSystemName                    : 'Roku OS'
+
+  - test:
+      input:
+        user_agent_string: 'WMPlayer/10.0.0.364 guid/3300AD50-2C39-46C0-AE0A-AC7B8159E203'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Windows Media Player'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Ask Pastor John/464 CFNetwork/1098.7 Darwin/19.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Ask Pastor John'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'The Karel Cast /1.50.52.181.23 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'The Karel Cast'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'GLOBAL HITS CON ARMANDO PLATA/1 CFNetwork/978.0.7 Darwin/18.7.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'GLOBAL HITS con Armando Plata'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Headgum/3 CFNetwork/978.0.7 Darwin/18.6.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Headgum'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'iDownloaderPro/1.0.1 CFNetwork/609.1.4 Darwin/13.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'iDownloaderPro'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'MPlayer 1.3.0 (Debian), built with gcc-6.2.1'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'MPlayer'
+        OperatingSystemName                    : 'Debian'
+
+  - test:
+      input:
+        user_agent_string: 'Simple Radio/1258 CFNetwork/758.5.3 Darwin/15.6.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Simple Radio'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'TuneIn Radio Pro/1224 CFNetwork/978.0.7 Darwin/18.7.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'TuneIn Radio'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'TuneIn Radio/1105 CFNetwork/758.5.3 Darwin/15.6.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'TuneIn Radio'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Juice/2.22 (Windows) +http://juicereceiver.sf.net/'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'Juice'
+        OperatingSystemName                    : 'Windows'
+
+  - test:
+      input:
+        user_agent_string: 'mytuner_podcasts_androidplayer/1.0.2 (Linux;Android 9) ExoPlayerLib/2.8.4'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'myTuner'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'MediaAnalyzer/podCloud 1.1 (like iTunes/10.0)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'podCloud'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'RMA/1.0 (compatible; RealMedia)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'RealPlayer'
+        OperatingSystemName                    : 'Unknown'
+
+# ------------------------------------------------------------------------------------------------------------------------------
   - lookup:
       name: 'KnownMediaLibraries'
       map:
@@ -937,21 +1321,6 @@ config:
         AgentName                            : 'Player FM'
         DeviceClass                          : 'Unknown'
         OperatingSystemName                  : 'Unknown'
-
-  - matcher:
-      require:
-        - 'agent.(1)product.(1)name="MixcloudPodcastImporter"'
-      extract:
-        - 'AgentName                         :   2000 :  agent.(1)product.(1)name'
-        - 'DeviceClass                       :   1000 :  "Robot"'
-
-  - test:
-      input:
-        user_agent_string: 'MixcloudPodcastImporter/2.0'
-      expected:
-        DeviceClass                           : 'Robot'
-        AgentName                             : 'MixcloudPodcastImporter'
-        OperatingSystemName                   : 'Unknown'
 
   - matcher:
       require:
