@@ -2582,7 +2582,7 @@ config:
       LayoutEngineVersion                  : '??'
       LayoutEngineVersionMajor             : '??'
       AgentClass                           : 'Browser'
-      AgentName                            : 'Kodi'
+      AgentName                            : 'Kodi Media Center'
       AgentVersion                         : '17.1'
       AgentVersionMajor                    : '17'
       AgentNameVersion                     : 'Kodi 17.1'

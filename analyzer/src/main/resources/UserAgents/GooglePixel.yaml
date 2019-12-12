@@ -224,7 +224,7 @@ config:
       LayoutEngineNameVersion              : 'Blink 55.0'
       LayoutEngineNameVersionMajor         : 'Blink 55'
       AgentClass                           : 'Browser Webview'
-      AgentName                            : 'Chrome Webview'
+      AgentName                            : 'Facebook'
       AgentVersion                         : '55.0.2883.91'
       AgentVersionMajor                    : '55'
       AgentNameVersion                     : 'Chrome Webview 55.0.2883.91'

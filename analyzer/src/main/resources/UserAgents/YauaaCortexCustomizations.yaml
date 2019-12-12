@@ -73,6 +73,13 @@ config:
       extract:
         - 'AgentName                        : 2000: "podCloud"'
 
+  # Nullsoft Winamp3
+  - matcher:
+      require:
+        - 'agent.product{"Nullsoft Winamp3"'
+      extract:
+        - 'AgentName                        : 2000: "Winamp"'
+
   - lookup:
       name: 'KnownApplications'
       map:
@@ -133,6 +140,8 @@ config:
         "VLC"                           : "VLC"
         "WeCast"                        : "WeCast"
         "WinampMPEG"                    : "Winamp"
+        "Winamp"                        : "Winamp"
+        "Winamp3"                       : "Winamp"
         "ivooxNew"                      : "iVoox"
         "Roku"                          : "Roku"
         "WMPlayer"                      : "Windows Media Player"
@@ -664,6 +673,22 @@ config:
 
   - test:
       input:
+        user_agent_string: 'WinampMPEG/5.58, Ultravox/2.1'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Winamp'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Nullsoft Winamp3 version 3.0 (compatible)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Winamp'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
         user_agent_string: 'ivooxNew/6 CFNetwork/1107.1 Darwin/19.0.0'
       expected:
         DeviceClass                            : 'Mobile'
@@ -798,6 +823,64 @@ config:
 
   #### special rules for known media libs special cases
 
+  # okhttp-okgo does not extract okhttp as a product name
+  - matcher:
+      require:
+        - 'agent.product.name~"okhttp"'
+      extract:
+        - 'AgentName                         :    2020: "Generic Android App"'
+
+  # BeyondPod is in comments
+  - matcher:
+      require:
+        - 'agent.product.comments~"BeyondPod"'
+      extract:
+        - 'AgentName                         :    2000: "BeyondPod"'
+
+  # DoggCatcher is in comments
+  - matcher:
+      require:
+        - 'agent.text~"DoggCatcher"'
+      extract:
+        - 'AgentName                         :    2000: "DoggCatcher"'
+        - 'DeviceClass:                           2000: "Mobile"'
+        - 'OperatingSystemName:                   2001: "Android"'
+
+  # Facebook attribute in comments
+  - matcher:
+      require:
+        - 'agent.product.comments~"FBAV"'
+      extract:
+        - 'AgentName                         :    10001: "Facebook"'
+
+  # Kodi needs higher weight as otherwise it's overweighted by SpecialBrowsers rule
+  - matcher:
+      require:
+        - 'agent.product.name="Kodi"'
+      extract:
+        - 'AgentName                         :    2020: "Kodi Media Center"'
+
+  # GStreamer can be anywhere
+  - matcher:
+      require:
+        - 'agent~"GStreamer"'
+      extract:
+        - 'AgentName                         :    2020: "GStreamer"'
+
+  # NexPlayer can be anywhere
+  - matcher:
+      require:
+        - 'agent~"NexPlayer"'
+      extract:
+        - 'AgentName                         :    2020: "NexPlayer"'
+
+  # VictorReader is just a part of product name
+  - matcher:
+      require:
+        - 'agent.product.name~"VictorReader"'
+      extract:
+        - 'AgentName                         :    2020: "VictorReader"'
+
   - lookup:
       name: 'KnownMediaLibraries'
       map:
@@ -808,15 +891,187 @@ config:
         "FBAV"  : "Facebook"
         "Kodi"                      : "Kodi Media Center"
         "XBMC"                      : "Kodi Media Center" # This is the former name of Kodi
-        "Winamp"                    : "Winamp"
         "QuickTime"                 : "QuickTime"
         "Player FM"                 : "Player FM"
         "MSIE"                      : "Internet Explorer"
-        "IEMobile"                  : "Internet Explorer"
-        "GStreamer"                 : "GStreamer"
-        "NexPlayer"                 : "NexPlayer"
-        "VictorReader"              : "VictorReader"
         "CrKey"                     : "Chromecast"
+
+  - test:
+      input:
+        user_agent_string: 'stagefright/1.2 (Linux;Android 4.1.2)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Samsung SM-G920I stagefright/Beyonce/1.1.9 (Linux;Android 7.0)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'okhttp/3.12.1'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'okhttp-okgo/jeasonlzy'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; U; en-us; BeyondPod 4) Dynamo/1.0'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'BeyondPod'
+        OperatingSystemName                    : 'Linux'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; U; Windows NT 6.1; en-us; dream) DoggCatcher'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'DoggCatcher'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1; 8050E Build/LMY47I; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.62 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/244.0.0.43.118;]'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Facebook'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBAV/207.0.0.48.100;FBBV/141048683;FBDV/iPhone10,5;FBMD/iPhone;FBSN/iOS;FBSV/13.1.2;FBSS/3;FBCR/AT&T;FBID/phone;FBLC/en_US;FBOP/5;FBRV/142061404]'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Facebook'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Kodi/17.5 (Windows NT 6.1; WOW64) App_Bitness/32 Version/17.5-Git:20171023-5bd45ab'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'Kodi Media Center'
+        OperatingSystemName                    : 'Windows NT'
+
+  - test:
+      input:
+        user_agent_string: 'XBMC/13.2 Git:20140817-0f3db05 (Windows NT 6.0; http://xbmc.org)'
+      expected:
+        DeviceClass                            : 'Robot'
+        AgentName                              : 'Kodi Media Center'
+        OperatingSystemName                    : 'Cloud'
+
+  - test:
+      input:
+        user_agent_string: 'QuickTime/7.7 (qtver=7.7;cpu=IA32;os=Mac 10.5.8)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'QuickTime'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Player FM/459 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Player FM'
+        OperatingSystemName                    : 'Darwin (iOS)'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 5.0; Trident/4.0;'
+      expected:
+        DeviceClass                            : 'Desktop'
+        AgentName                              : 'Internet Explorer'
+        OperatingSystemName                    : 'Windows NT'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Windows Phone 8.1; ARM; Trident/7.0; Touch; rv:11.0; IEMobile/11.0; NOKIA; Lumia 625) like Gecko'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'IE Mobile'
+        OperatingSystemName                    : 'Windows Phone'
+
+  - test:
+      input:
+        user_agent_string: 'amarok/2.9.0 (Phonon/4.8.3; Phonon-GStreamer/4.9.0)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'GStreamer'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'GStreamer souphttpsrc libsoup/2.42.2'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'GStreamer'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'GStreamer neonhttpsrc'
+      expected:
+        DeviceClass                            : 'Hacker'
+        AgentName                              : 'GStreamer'
+        OperatingSystemName                    : 'Hacker'
+
+  - test:
+      input:
+        user_agent_string: 'HbbTV/1.2.1 (+PVR+DRM; Arcelik; MWB;;;) GStreamer neonhttpsrc'
+      expected:
+        DeviceClass                            : 'TV'
+        AgentName                              : 'GStreamer'
+        OperatingSystemName                    : 'Proprietary'
+
+  - test:
+      input:
+        user_agent_string: 'stagefright/1.2 (Linux;Android NexPlayer LG-P708g20a-TCL-XX)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'NexPlayer'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'NexPlayer 4.0 for Android( stagefright alternative )'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'NexPlayer'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'VictorReader Stream Trek uk-en Graham Rachel 1.2.11'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'VictorReader'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.81 Safari/537.36 CrKey/1.42.180518 Dynamo/1.0'
+      expected:
+        DeviceClass                            : 'TV'
+        AgentName                              : 'Chromecast'
+        OperatingSystemName                    : 'Linux'
+
   # ------------------------------------------------------------------------------------------------------------------------------
 
 # todo pandora and luminary rule
@@ -1872,23 +2127,6 @@ config:
 
   - matcher:
       require:
-        - 'agent.(1)product.(1)name="okhttp"'
-      extract:
-        - 'DeviceClass                        :   2000 : "Robot"'
-        - 'OperatingSystemName                :   2000 : "Android"'
-        - 'AgentName                          :   1000 :  agent.(1)product.(1)name'
-
-  - test:
-      input:
-        user_agent_string                    : 'okhttp/2.7.5'
-      expected:
-        AgentName                            : 'okhttp'
-        DeviceClass                          : 'Robot'
-        OperatingSystemName                  : 'Android'
-
-
-  - matcher:
-      require:
         - 'agent.(1)product.(1)name="LinkedInBot"'
         - 'agent.(1)product.(1)comments.(3)entry.(1)product.(1)name="Apache-HttpClient"'
         - 'agent.(1)product.(1)comments.(3)entry.(1)product.(1)version.(1)url="http://www.linkedin.com"'
@@ -2297,39 +2535,6 @@ config:
         DeviceClass         : 'Tablet'
         OperatingSystemName : 'iOS'
 
-
-  #### BeyondPod
-  - matcher:
-      require:
-        - 'agent.(1)product.(1)comments.(4)entry.(1)text="BeyondPod"'
-      extract:
-        - 'AgentName                          :   4000 :"BeyondPod"'
-        - 'DeviceClass                        :   4000 :"Phone"'
-        - 'OperatingSystemName                :   4000 :"Android"'
-
-  - test:
-      input:
-        user_agent_string: 'Mozilla/5.0 (Linux; U; en-us; BeyondPod)'
-      expected:
-        AgentName           : 'BeyondPod'
-        DeviceClass         : 'Phone'
-        OperatingSystemName : 'Android'
-
-  - matcher:
-      require:
-        - 'agent.(1)product.(1)comments.(4)entry.(1)product.(1)name="BeyondPod"'
-      extract:
-        - 'AgentName                          :   4000 :"BeyondPod"'
-        - 'DeviceClass                        :   4000 :"Phone"'
-        - 'OperatingSystemName                :   4000 :"Android"'
-
-  - test:
-      input:
-        user_agent_string: 'Mozilla/5.0 (Linux; U; en-us; BeyondPod 4)'
-      expected:
-        AgentName           : 'BeyondPod'
-        DeviceClass         : 'Phone'
-        OperatingSystemName : 'Android'
 
   ### Windows Media Player
   - matcher:
