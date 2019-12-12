@@ -19,13 +19,14 @@
 # custom Spreaker Apps
 config:
 
+  # ------------------------------------------------------------------------------------------------------------------------------
+
+  # Known apps lookup
   - matcher:
       extract:
         - 'AgentName                         :    200 :LookUp[KnownApplications;agent.product.name]'
-  - matcher:
-      extract:
-        - 'AgentName                         :    200 :LookUp[KnownMediaLibraries;agent.product.name]'
 
+  #### special rules for known apps special cases
   # Zune can be in product or in comments
   - matcher:
       require:
@@ -147,6 +148,15 @@ config:
         "Juice"                         : "Juice"
         "mytuner_podcasts_androidplayer" : "myTuner"
         "RMA"                           : "RealPlayer"
+        "Deezer"                        : "Deezer"
+
+  - test:
+      input:
+        user_agent_string: 'Deezer/6.1.15.86 (Android; 9; Mobile; mx) samsung SM-A105M'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Deezer'
+        OperatingSystemName                    : 'Android'
 
   - test:
       input:
@@ -780,7 +790,14 @@ config:
         AgentName                              : 'RealPlayer'
         OperatingSystemName                    : 'Unknown'
 
-# ------------------------------------------------------------------------------------------------------------------------------
+  # ------------------------------------------------------------------------------------------------------------------------------
+  # Known media libraries lookup
+  - matcher:
+      extract:
+        - 'AgentName                         :    200 :LookUp[KnownMediaLibraries;agent.product.name]'
+
+  #### special rules for known media libs special cases
+
   - lookup:
       name: 'KnownMediaLibraries'
       map:
@@ -800,13 +817,13 @@ config:
         "NexPlayer"                 : "NexPlayer"
         "VictorReader"              : "VictorReader"
         "CrKey"                     : "Chromecast"
-        "Deezer/"                   : "Deezer"
-        "Sonos/"                    : "Sonos"
+  # ------------------------------------------------------------------------------------------------------------------------------
 
 # todo pandora and luminary rule
 #    "Pandora\\/\\d+"              -> "Pandora",
 #    "^Luminary\\/\\d+"            -> "Luminary"
 
+  # ------------------------------------------------------------------------------------------------------------------------------
 
 
   - set:
