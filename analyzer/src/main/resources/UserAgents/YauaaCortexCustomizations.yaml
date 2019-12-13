@@ -78,6 +78,20 @@ config:
       extract:
         - 'AgentName                        : 2000: "Winamp"'
 
+  # MixcloudPodcastImporter is a robot
+  - matcher:
+      require:
+        - 'agent.product.name="MixcloudPodcastImporter"'
+      extract:
+        - 'DeviceClass                        : 200: "Robot"'
+
+  # iCatcher can be anywhere
+  - matcher:
+      require:
+        - 'agent~"iCatcher!"'
+      extract:
+        - 'AgentName                        : 201: "iCatcher"'
+
   - lookup:
       name: 'KnownApplications'
       map:
@@ -106,7 +120,6 @@ config:
         "Dalvik"                        : "Generic Android App"
         "AndroidDownloadManager"        : "Generic Android App"
         "AntennaPod"                    : "AntennaPod"
-        "iCatcher!"                     : "iCatcher"
         "PodCruncher"                   : "PodCruncher"
         "Radioline"                     : "Radioline"
         "Acast"                         : "Acast"
@@ -409,6 +422,22 @@ config:
 
   - test:
       input:
+        user_agent_string: 'iCatcher! podcast app/2.2.6'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'iCatcher'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
+        user_agent_string: 'iTunes (iCatcher!/2.8.7)'
+      expected:
+        DeviceClass                            : 'Unknown'
+        AgentName                              : 'iCatcher'
+        OperatingSystemName                    : 'Unknown'
+
+  - test:
+      input:
         user_agent_string: 'PodCruncher/3.7.1 CFNetwork/889.9 Darwin/17.2.0'
       expected:
         DeviceClass                            : 'Mobile'
@@ -571,7 +600,7 @@ config:
       input:
         user_agent_string: 'MixcloudPodcastImporter/2.0'
       expected:
-        DeviceClass                            : 'Unknown'
+        DeviceClass                            : 'Robot'
         AgentName                              : 'Mixcloud'
         OperatingSystemName                    : 'Unknown'
 
@@ -861,13 +890,16 @@ config:
         - 'agent.product.name~"okhttp"'
       extract:
         - 'AgentName                         :    2020: "Generic Android App"'
+        - 'DeviceClass                       :    200:  "Robot"'
 
-  # BeyondPod is in comments
+  # BeyondPod is in comments and it's an Android app
   - matcher:
       require:
         - 'agent.product.comments~"BeyondPod"'
       extract:
         - 'AgentName                         :    2000: "BeyondPod"'
+        - 'OperatingSystemName:                   2001: "Android"'
+        - 'DeviceClass:                           2001: "Mobile"'
 
   # DoggCatcher is in comments
   - matcher:
@@ -918,7 +950,6 @@ config:
       map:
         "stagefright"               : "Generic Android App"
         "okhttp"                    : "Generic Android App"
-        "BeyondPod"                 : "BeyondPod"
         "DoggCatcher"               : "DoggCatcher"
         "FBAV"  : "Facebook"
         "Kodi"                      : "Kodi Media Center"
@@ -948,7 +979,7 @@ config:
       input:
         user_agent_string: 'okhttp/3.12.1'
       expected:
-        DeviceClass                            : 'Unknown'
+        DeviceClass                            : 'Robot'
         AgentName                              : 'Generic Android App'
         OperatingSystemName                    : 'Unknown'
 
@@ -956,7 +987,7 @@ config:
       input:
         user_agent_string: 'okhttp-okgo/jeasonlzy'
       expected:
-        DeviceClass                            : 'Unknown'
+        DeviceClass                            : 'Robot'
         AgentName                              : 'Generic Android App'
         OperatingSystemName                    : 'Unknown'
 
@@ -964,9 +995,9 @@ config:
       input:
         user_agent_string: 'Mozilla/5.0 (Linux; U; en-us; BeyondPod 4) Dynamo/1.0'
       expected:
-        DeviceClass                            : 'Desktop'
+        DeviceClass                            : 'Mobile'
         AgentName                              : 'BeyondPod'
-        OperatingSystemName                    : 'Linux'
+        OperatingSystemName                    : 'Android'
 
   - test:
       input:
@@ -1218,7 +1249,15 @@ config:
       require:
         - 'agent.product.name="GSA"'
       extract:
-        - 'AgentName                           :   1000 : "Google Podcasts"'
+        - 'AgentName                           :   10001 : "Google Podcasts"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 8.1.0; Pixel XL Build/OPM2.171019.029; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/65.0.3325.109 Mobile Safari/537.36 GSA/8.0.17.21.arm64'
+      expected:
+        DeviceClass                          : 'Phone'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Google Podcasts'
 
   - test:
       input:
