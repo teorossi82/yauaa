@@ -18,6 +18,25 @@
 config:
 
   # ------------------------------------------------------------------------------------------------------------------------------
+  # Android media player ExoPlayer provides an example how it can be used with yourApplicationName as a sample user agent,
+  # so all traffic with yourApplicationName seems to be using this example
+  # https://www.programcreek.com/java-api-examples/?class=com.google.android.exoplayer2.util.Util&method=getUserAgent
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="yourApplicationName"'
+      extract:
+        - 'AgentName                         :    201 :"Generic Android App"'
+
+  - test:
+      input:
+        user_agent_string: 'yourApplicationName/2.17.64 (Linux;Android 9) ExoPlayerLib/2.10.8'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
+        OperatingSystemName                    : 'Android'
+
+  # ------------------------------------------------------------------------------------------------------------------------------
 
   # Known apps lookup
   - matcher:
