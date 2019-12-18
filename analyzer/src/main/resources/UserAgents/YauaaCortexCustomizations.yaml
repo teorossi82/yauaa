@@ -17,6 +17,40 @@
 # Cortex customized rules
 config:
 
+  # -----------
+  # Fallback Android detection - if OS Unknown and Android present it's an Android
+  - matcher:
+      require:
+        - 'agent~"Android"'
+        - 'IsNull[agent~"like Android"]'
+        - 'IsNull[agent~"Windows"]'
+      extract:
+        - 'DeviceClass: 1: "Mobile"'
+        - 'OperatingSystemName: 1: "Android"'
+
+  # ----------
+  # LG Player detection
+  - matcher:
+      require:
+        - 'agent.product.version="LG Player"'
+      extract:
+        - 'AgentName: 6: "LG Player"'
+
+  - test:
+      input:
+        user_agent_string: 'LG-D618/V20a Player/LG Player 1.0 for Android 5.0.2 (stagefright alternative)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'LG Player'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Player/LG Player 1.0 for Android 4.4.2 (stagefright alternative)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'LG Player'
+        OperatingSystemName                    : 'Android'
 
   # ------------------------------------------------------------------------------------------------------------------------------
   # We want IE Mobile to be tagged as Internet Explorer
@@ -572,9 +606,9 @@ config:
       input:
         user_agent_string: 'EMAudioPlayer 2.9.1 (655) / Android 4.4.2 / X9006'
       expected:
-        DeviceClass                            : 'Unknown'
+        DeviceClass                            : 'Mobile'
         AgentName                              : 'Generic Android App'
-        OperatingSystemName                    : 'Unknown'
+        OperatingSystemName                    : 'Android'
 
   - test:
       input:
@@ -1159,9 +1193,9 @@ config:
       input:
         user_agent_string: 'NexPlayer 4.0 for Android( stagefright alternative )'
       expected:
-        DeviceClass                            : 'Unknown'
+        DeviceClass                            : 'Mobile'
         AgentName                              : 'NexPlayer'
-        OperatingSystemName                    : 'Unknown'
+        OperatingSystemName                    : 'Android'
 
   - test:
       input:
