@@ -18,7 +18,10 @@
 config:
 
   # -----------
-  # Fallback Android detection - if OS Unknown and Android present it's an Android
+  # Fallback iOS detection - if OS is Unknown and iOS present it's an iOS
+
+  # -----------
+  # Fallback Android detection - if OS is Unknown and Android present it's an Android
   - matcher:
       require:
         - 'agent~"Android"'
@@ -50,6 +53,38 @@ config:
       expected:
         DeviceClass                            : 'Mobile'
         AgentName                              : 'LG Player'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'Podimo/1.10.1 build 83/Android 26'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Podimo'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: '##_SM-A102U_Extended Network_9_blenderandroid_en_0.16.0_DID999'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : '##_SM-A102U_Extended'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'RadioPublic/android-2.2'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'RadioPublic'
+        OperatingSystemName                    : 'Android'
+
+  - test:
+      input:
+        user_agent_string: 'TCL-5054S-SVN/010 01; stagefright/1.2 (Linux;Android 5.1.1)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Generic Android App'
         OperatingSystemName                    : 'Android'
 
   # ------------------------------------------------------------------------------------------------------------------------------
