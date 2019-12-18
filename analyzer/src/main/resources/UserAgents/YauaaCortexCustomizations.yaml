@@ -17,6 +17,31 @@
 # Cortex customized rules
 config:
 
+
+  # ------------------------------------------------------------------------------------------------------------------------------
+  # We want IE Mobile to be tagged as Internet Explorer
+  - matcher:
+      require:
+        - 'agent.product.comments.entry.product.name="IEMobile"'
+      extract:
+        - 'AgentName: 2012: "Internet Explorer"'
+
+  - test:
+      input:
+        user_agent_string: 'HTC_Touch_Pro2_T7373 Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 8.12; MSIEMobile 6.0)'
+      expected:
+        DeviceClass                            : 'Mobile'
+        AgentName                              : 'Internet Explorer'
+        OperatingSystemName                    : 'Windows CE'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Mobile; Windows Phone 8.1; Android 4.0; ARM; Trident/7.0; Touch; rv:11.0; IEMobile/11.0; NOKIA; Lumia 930; Vodafone) like iPhone OS 7_0_3 Mac OS X AppleWebKit/537 (KHTML, like Gecko) Mobile Safari/537'
+      expected:
+        DeviceClass                            : 'Phone'
+        AgentName                              : 'Internet Explorer'
+        OperatingSystemName                    : 'Windows Phone'
+
   # ------------------------------------------------------------------------------------------------------------------------------
   # Android media player ExoPlayer provides an example how it can be used with yourApplicationName as a sample user agent,
   # so all traffic with yourApplicationName seems to be using this example
@@ -1087,7 +1112,7 @@ config:
         user_agent_string: 'Mozilla/5.0 (Windows Phone 8.1; ARM; Trident/7.0; Touch; rv:11.0; IEMobile/11.0; NOKIA; Lumia 625) like Gecko'
       expected:
         DeviceClass                            : 'Phone'
-        AgentName                              : 'IE Mobile'
+        AgentName                              : 'Internet Explorer'
         OperatingSystemName                    : 'Windows Phone'
 
   - test:

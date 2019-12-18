@@ -497,7 +497,7 @@ config:
       LayoutEngineNameVersion              : 'Trident 6.0'
       LayoutEngineNameVersionMajor         : 'Trident 6'
       AgentClass                           : 'Browser'
-      AgentName                            : 'IE Mobile'
+      AgentName                            : 'Internet Explorer'
       AgentVersion                         : '10.0'
       AgentVersionMajor                    : '10'
       AgentNameVersion                     : 'IE Mobile 10.0'
