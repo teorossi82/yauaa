@@ -19,15 +19,6 @@ config:
 
   # -----------
   # Fallback iOS detection - if OS is Unknown and iOS present it's an iOS
-
-  # < "RSSRadio/9252 (iPad;iOS;12.4.1)","Unknown","Tablet","RSSRadio"
-  # < "Spotify/8.4.51 iOS/9.3.5 (iPad3,1)","Unknown","Tablet","Spotify"
-  # < "com.evolve.podcast/3.3.1 (iPad; ) (build 857, iOS 13.2.3)","Unknown","Tablet","com.evolve.podcast"
-  # "com.evolve.podcast/3.3.2 (iPad; ) (build 860, iOS 10.3.4)","Unknown","Tablet","com.evolve.podcast"
-  # "itunesstored/1.0 iOS/10.1.1 model/iPad3,4 hwp/s5l8955x build/14B100 (5; dt:83)","Unknown","Unknown","iTunes"
-
-  # "iTunes-iPod/4.2.1 (2; 16GB)","Unknown","Unknown","iTunes"
-
   - matcher:
       require:
         - 'agent~"iOS/"'
@@ -42,7 +33,9 @@ config:
         - 'DeviceClass: 1: "Mobile"'
         - 'OperatingSystemName: 1: "iOS"'
 
-  # iPad has higher weight than iPhone/iPod cause when both are present it's more probably an iPad
+  # -----------
+  # Fallback iPod/iPhone detection - when present, it's iOS Phone
+  # Fallback iPad detection - when iPad present, it's iOS Tablet. (iPad has higher weight than iPhone/iPod cause when both are present it's more probably an iPad)
   - matcher:
       require:
         - 'agent~"(iPad"'
@@ -108,6 +101,29 @@ config:
         AgentName                              : 'Spotify'
         OperatingSystemName                    : 'iOS'
 
+  - test:
+      input:
+        user_agent_string: 'RSSRadio/9252 (iPad;iOS;12.4.1)'
+      expected:
+        DeviceClass                            : 'Tablet'
+        AgentName                              : 'RSSRadio'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'com.evolve.podcast/3.3.1 (iPad; ) (build 857, iOS 13.2.3)'
+      expected:
+        DeviceClass                            : 'Tablet'
+        AgentName                              : 'com.evolve.podcast'
+        OperatingSystemName                    : 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'itunesstored/1.0 iOS/10.1.1 model/iPad3,4 hwp/s5l8955x build/14B100 (5; dt:83)'
+      expected:
+        DeviceClass                            : 'Tablet'
+        AgentName                              : 'iTunes'
+        OperatingSystemName                    : 'iOS'
 
   # -----------
   # Fallback Android detection - if OS is Unknown and Android present it's an Android
