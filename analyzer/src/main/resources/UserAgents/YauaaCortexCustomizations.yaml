@@ -17,6 +17,25 @@
 # Cortex customized rules
 config:
 
+  # ---- special rules for Sky News iOS and Sky New Android
+  - test:
+      input:
+        user_agent_string: 'Sky News iOS/1.0 (iOS 12.4.4; en_GB)'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Sky News iOS'
+        OperatingSystemName: 'iOS'
+
+  - test:
+      input:
+        user_agent_string: 'Sky News Android/1.0 (Android 9; en_GB)'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Sky News Android'
+        OperatingSystemName: 'Android'
+
+
+
   # -----------
   # Fallback iOS detection - if OS is Unknown and iOS present it's an iOS
   - matcher:
