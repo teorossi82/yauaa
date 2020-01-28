@@ -17,6 +17,168 @@
 # Cortex customized rules
 config:
 
+
+  # ---- extended Apple Podcasts detection
+  # based on https://podnews.net/article/podcast-app-useragents
+
+  - set:
+      name: 'ApplePodcastsNames'
+      values:
+        - Podcasts
+        - Balados
+        - Podcasti
+        - Podcastit
+        - Podcasturi
+        - Podcasty
+        - Podcast’ler
+        - Podkaster
+        - Podcaster
+        - Podcast
+        - Подкасти
+        - Подкасты
+        - पॉडकास्ट
+        - พ็อดคาสท์
+        - 播客
+        - 팟캐스트
+        - פודקאסטים
+        - البودكاست
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name?ApplePodcastsNames'
+      extract:
+        - 'AgentName:            100: "Apple Podcasts"'
+        - 'OperatingSystemName:  100: "iOS"'
+
+  - test:
+      input:
+        user_agent_string: 'Podcasts/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Balados/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcasti/1410.25.1 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcastit/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcasturi/1410.25.1 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcasty/1410.25.1 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcast’ler/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podkaster/1420.35 CFNetwork/1120 Darwin/19.0.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcaster/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcast/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Подкасти/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Подкасты/1410.25.1 CFNetwork/1107.1 Darwin/19.0.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'פודקאסטים/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'البودكاست/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'พ็อดคาสท์/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: '팟캐스트/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: '播客/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'पॉडकास्ट/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+
+
+
   # ---- special rules for Sky News iOS and Sky New Android
   - test:
       input:
@@ -1738,7 +1900,7 @@ config:
         user_agent_string                    : 'Podcasts/3.5.1'
       expected:
         AgentName                            : 'Apple Podcasts'
-        OperatingSystemName                  : 'Unknown'
+        OperatingSystemName                  : 'iOS'
         DeviceClass                          : 'Unknown'
 
   - matcher:
