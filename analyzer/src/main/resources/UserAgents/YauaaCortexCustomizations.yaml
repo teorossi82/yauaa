@@ -17,6 +17,67 @@
 # Cortex customized rules
 config:
 
+  # ---- JioSaavn matching
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="com.jio.media.jiobeats.jiosaavn"'
+      extract:
+        - 'AgentName                        : 1000: "JioSaavn"'
+        - 'DeviceClass                      : 1000: "Mobile"'
+        - 'OperatingSystemName              : 1000: "Android"'
+  - test:
+      input:
+        user_agent_string: 'com.jio.media.jiobeats.jiosaavn/6.9.1 (Linux;Android 9) ExoPlayerLib/2.10.4'
+      expected:
+        AgentName: 'JioSaavn'
+        DeviceClass: 'Mobile'
+        OperatingSystemName: 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="com.jio.media.jiobeats"'
+      extract:
+        - 'AgentName                        : 1000: "JioSaavn"'
+        - 'DeviceClass                      : 1000: "Mobile"'
+        - 'OperatingSystemName              : 1000: "Android"'
+  - test:
+      input:
+        user_agent_string: 'com.jio.media.jiobeats/6.9.1 (Linux;Android 5.1.1) ExoPlayerLib/2.10.4'
+      expected:
+        AgentName: 'JioSaavn'
+        DeviceClass: 'Mobile'
+        OperatingSystemName: 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="com.saavn.android"'
+      extract:
+        - 'AgentName                        : 1000: "JioSaavn"'
+        - 'DeviceClass                      : 1000: "Mobile"'
+        - 'OperatingSystemName              : 1000: "Android"'
+  - test:
+      input:
+        user_agent_string: 'com.saavn.android/5.18.3 (Linux;Android 10) ExoPlayerLib/2.4.0'
+      expected:
+        AgentName: 'JioSaavn'
+        DeviceClass: 'Mobile'
+        OperatingSystemName: 'Android'
+
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="Saavn"'
+      extract:
+        - 'AgentName                        : 1000: "JioSaavn"'
+        - 'DeviceClass                      : 1000: "Mobile"'
+        - 'OperatingSystemName              : 1000: "iOS"'
+  - test:
+      input:
+        user_agent_string: 'Saavn/650.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        AgentName: 'JioSaavn'
+        DeviceClass: 'Mobile'
+        OperatingSystemName: 'iOS'
 
   # ---- extended Apple Podcasts detection
   # based on https://podnews.net/article/podcast-app-useragents
