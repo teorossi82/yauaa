@@ -17,6 +17,35 @@
 # Cortex customized rules
 config:
 
+  # ----- Gooole Podcasts iOS app matching
+  # It has UserAgent very similar to Apple Podcasts iOS app.
+  # ^Podcasts$ is Google Podcasts @ iOS (phones, tablets)
+  # ^Podcasts/.* is Apple Podcasts
+
+  - matcher:
+      require:
+        - 'agent.(1)text="Podcasts"'
+        - 'IsNull[agent.(1)text^>]'
+      extract:
+        - 'AgentName:            100: "Google Podcasts"'
+        - 'OperatingSystemName:  100: "iOS"'
+        - 'DeviceClass:          100: "Mobile"'
+
+  - test:
+      input:
+        user_agent_string: 'Podcasts'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Google Podcasts'
+        OperatingSystemName: 'iOS'
+  - test:
+      input:
+        user_agent_string: 'Podcasts/1425.5 CFNetwork/1121.2.2 Darwin/19.2.0'
+      expected:
+        DeviceClass: 'Mobile'
+        AgentName: 'Apple Podcasts'
+        OperatingSystemName: 'iOS'
+
   # ---- JioSaavn matching
 
   - matcher:
