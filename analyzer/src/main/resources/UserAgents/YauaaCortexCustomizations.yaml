@@ -17,6 +17,44 @@
 # Cortex customized rules
 config:
 
+  # ---- AntennaPod Android app
+  - set:
+      name: 'AntennaPodNames'
+      values:
+        - 'AntennaPod'
+        - 'de.danoeh.antennapod'
+        - 'de.danoeh.antennapod_mh'
+
+  - matcher:
+      require:
+        - 'agent.product.name?AntennaPodNames'
+      extract:
+        - 'AgentName:            100: "AntennaPod"'
+        - 'OperatingSystemName:  100: "Android"'
+        - 'DeviceClass:          100: "Mobile"'
+
+  - test:
+      input:
+        user_agent_string: 'de.danoeh.antennapod_mh/1.8.1 (Linux;Android 7.0) ExoPlayerLib/2.10.8'
+      expected:
+        AgentName: 'AntennaPod'
+        OperatingSystemName: 'Android'
+        DeviceClass: 'Mobile'
+  - test:
+      input:
+        user_agent_string: 'de.danoeh.antennapod/1.8.1 (Linux;Android 9) ExoPlayerLib/2.10.8'
+      expected:
+        AgentName: 'AntennaPod'
+        OperatingSystemName: 'Android'
+        DeviceClass: 'Mobile'
+  - test:
+      input:
+        user_agent_string: 'AntennaPod/1.81'
+      expected:
+        AgentName: 'AntennaPod'
+        OperatingSystemName: 'Android'
+        DeviceClass: 'Mobile'
+
   # ----- Gooole Podcasts iOS app matching
   # It has UserAgent very similar to Apple Podcasts iOS app.
   # ^Podcasts$ is Google Podcasts @ iOS (phones, tablets)
@@ -1032,13 +1070,14 @@ config:
         AgentName                              : 'Generic Android App'
         OperatingSystemName                    : 'Android'
 
+  #  there is a special rule for AntennaPod defining also device class and os
   - test:
       input:
         user_agent_string: 'AntennaPod/1.7.3'
       expected:
-        DeviceClass                            : 'Unknown'
+        DeviceClass                            : 'Mobile'
         AgentName                              : 'AntennaPod'
-        OperatingSystemName                    : 'Unknown'
+        OperatingSystemName                    : 'Android'
 
   - test:
       input:
