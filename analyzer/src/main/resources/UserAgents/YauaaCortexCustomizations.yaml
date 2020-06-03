@@ -16,6 +16,42 @@
 
 # Cortex customized rules
 config:
+  # ---- Override of rules from Watches.yaml to give Device Type "Smart Watch" as that's the device type that we detect in cortex custom rules
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)comments.entry~"watch"'
+      extract:
+        - 'DeviceClass                         :   2001 :"Smart Watch"'
+
+  - test:
+      input:
+        user_agent_string: 'AndroidDownloadManager/9 (Linux; U; Android 9; TicWatch Pro 4G Build/PWDD.190617.032)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Generic Android App'
+
+  - test:
+      input:
+        user_agent_string: 'Overcast (+http://overcast.fm/; Apple Watch podcast app)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        OperatingSystemName                  : 'Cloud'
+        AgentName                            : 'Overcast'
+
+  - matcher:
+      require:
+        - 'agent.product.(1)name="SmartWatch"^.(1)comments.(2)entry.text'
+      extract:
+        - 'DeviceClass                         :   1101 :"Smart Watch"'
+
+  - test:
+      input:
+        user_agent_string: 'Mozilla/5.0 (Linux; Android 4.4.2; SM-N7505 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 SmartWatch(Sony;SW2;660x800)'
+      expected:
+        DeviceClass                          : 'Smart Watch'
+        OperatingSystemName                  : 'Android'
+        AgentName                            : 'Chrome Webview'
 
   # ---- AntennaPod Android app
   - set:

@@ -27,7 +27,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.0.1; G Watch R Build/LWX48P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch R'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -54,7 +54,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.0.1; G Watch R Build/LWX48P) AppleWebKit/537.36 (KHTML, like Gecko) WIB/0.9.8 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch R'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -81,7 +81,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.0.2; G Watch Build/LWX49K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -108,7 +108,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.0.2; G Watch R Build/LWX49K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch R'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -135,7 +135,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.0.2; SmartWatch 3 Build/LWX49K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'Sony SmartWatch 3'
       DeviceBrand                          : 'Sony'
       OperatingSystemClass                 : 'Mobile'
@@ -162,7 +162,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1.1; ASUS ZenWatch 2 Build/LCA49B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'Asus Zenwatch 2'
       DeviceBrand                          : 'Asus'
       OperatingSystemClass                 : 'Mobile'
@@ -189,7 +189,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1.1; G Watch Build/LDZ22D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -216,7 +216,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1.1; G Watch R Build/LCA44B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch R'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -243,7 +243,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1.1; G Watch R Build/LDZ22D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG G Watch R'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -271,7 +271,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1.1; LG Watch Urbane Build/LCA44B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'LG Watch Urbane'
       DeviceBrand                          : 'LG'
       OperatingSystemClass                 : 'Mobile'
@@ -298,7 +298,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 5.1.1; SmartWatch 3 Build/LCA43) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/19.77.34.5 Mobile Safari/537.36'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'Sony SmartWatch 3'
       DeviceBrand                          : 'Sony'
       OperatingSystemClass                 : 'Mobile'
@@ -325,7 +325,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; U; Android 4.2.2; nl-nl; K8 Watch Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'K8 Watch'
       DeviceBrand                          : 'K8'
       OperatingSystemClass                 : 'Mobile'
@@ -366,7 +366,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 4.4.2; SM-N7505 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 SmartWatch(Sony;SW2;660x800)'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'Sony SW2'
       DeviceBrand                          : 'Sony'
       OperatingSystemClass                 : 'Mobile'
@@ -397,7 +397,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 4.4.4; C6903 Build/14.4.A.0.157) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36 SmartWatch(Sony;SW2;990x800)'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'Sony SW2'
       DeviceBrand                          : 'Sony'
       OperatingSystemClass                 : 'Mobile'
@@ -428,7 +428,7 @@ config:
     input:
       user_agent_string: 'Mozilla/5.0 (Linux; Android 4.4.4; Micromax AQ4501 Build/KPW53) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36 SmartWatch(Sony;SW2;495x800)'
     expected:
-      DeviceClass                          : 'Watch'
+      DeviceClass                          : 'Smart Watch'
       DeviceName                           : 'Sony SW2'
       DeviceBrand                          : 'Sony'
       OperatingSystemClass                 : 'Mobile'
