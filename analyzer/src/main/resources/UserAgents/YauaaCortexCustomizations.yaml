@@ -16,6 +16,84 @@
 
 # Cortex customized rules
 config:
+  # ---- Amazon Music specific rules
+  # AmazonMusic - Android app - should be categorised as AmazonMusic, Android, Mobile
+  - matcher:
+      require:
+        - 'agent.text="AmazonMusic"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Music"'
+        - 'OperatingSystemName               :   2001 : "Android"'
+        - 'DeviceClass                       :   2001 : "Mobile"'
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'Android'
+        DeviceClass                          : 'Mobile'
+
+  # AmazonMusic/9.15.2 iPhone11,8 CFNetwork/1128.0.1 Darwin/19.6.0 - iOS app - should be categorised as AmazonMusic, iOS, Phone
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AmazonMusic"'
+        - 'agent.(2)product.(1)name{"iPhone"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Music"'
+        - 'OperatingSystemName               :   2001 : "iOS"'
+        - 'DeviceClass                       :   2001 : "Phone"'
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic/9.15.2 iPhone11,8 CFNetwork/1128.0.1 Darwin/19.6.0'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'iOS'
+        DeviceClass                          : 'Phone'
+
+  # AmazonMusic/9.15.2 iPad6,11 CFNetwork/1128.0.1 Darwin/19.6.0 - iOS app - should be categorised as AmazonMusic, iOS, Tablet
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AmazonMusic"'
+        - 'agent.(2)product.(1)name{"iPad"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Music"'
+        - 'OperatingSystemName               :   2001 : "iOS"'
+        - 'DeviceClass                       :   2001 : "Tablet"'
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic/9.15.2 iPad6,11 CFNetwork/1128.0.1 Darwin/19.6.0'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'iOS'
+        DeviceClass                          : 'Tablet'
+
+  # AmazonMusic/16.17.1 Dalvik/2.1.0 (Linux; U; Android 10; SM-N986U Build/QP1A.190711.020) - Android app - should be categorised as AmazonMusic, Android, Mobile (or Phone when device is known to be Phone to yauaa)
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AmazonMusic"'
+        - 'agent.(2)product.(1)comments~"Android"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Music"'
+        - 'OperatingSystemName               :   2001 : "Android"'
+        - 'DeviceClass                       :   1 : "Mobile"'
+  # Known Android phone
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic/16.17.1 Dalvik/2.1.0 (Linux; U; Android 10; SM-N986U Build/QP1A.190711.020)'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'Android'
+        DeviceClass                          : 'Phone'
+  # Unknown Android device
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic/16.17.3 Dalvik/2.1.0 (Linux; U; Android 8.0.0; F5321 Build/34.4.A.2.118)'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'Android'
+        DeviceClass                          : 'Mobile'
+
+
   # ---- Override of rules from Watches.yaml to give Device Type "Smart Watch" as that's the device type that we detect in cortex custom rules
   - matcher:
       require:
