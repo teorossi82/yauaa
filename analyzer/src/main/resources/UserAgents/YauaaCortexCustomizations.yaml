@@ -33,6 +33,22 @@ config:
         OperatingSystemName                  : 'Android'
         DeviceClass                          : 'Mobile'
 
+  # AmazonMusic Dynamo/1.0 - Android app pingbacked from Dynamo - should be categorised as AmazonMusic, Android, Mobile
+  - matcher:
+      require:
+        - 'agent.text="AmazonMusic Dynamo/1.0"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Music"'
+        - 'OperatingSystemName               :   2001 : "Android"'
+        - 'DeviceClass                       :   2001 : "Mobile"'
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'Android'
+        DeviceClass                          : 'Mobile'
+
   # AmazonMusic/9.15.2 iPhone11,8 CFNetwork/1128.0.1 Darwin/19.6.0 - iOS app - should be categorised as AmazonMusic, iOS, Phone
   - matcher:
       require:
