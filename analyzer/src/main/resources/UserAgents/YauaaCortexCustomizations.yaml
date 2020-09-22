@@ -83,6 +83,24 @@ config:
         OperatingSystemName                  : 'iOS'
         DeviceClass                          : 'Tablet'
 
+  # AmazonMusic/9.15.2 iPod9,1 CFNetwork/1128.0.1 Darwin/19.6.0
+  - matcher:
+      require:
+        - 'agent.(1)product.(1)name="AmazonMusic"'
+        - 'agent.(2)product.(1)name{"iPod"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Music"'
+        - 'OperatingSystemName               :   2001 : "iOS"'
+        - 'DeviceClass                       :   2001 : "Phone"'
+  - test:
+      input:
+        user_agent_string: 'AmazonMusic/9.15.2 iPod9,1 CFNetwork/1128.0.1 Darwin/19.6.0'
+      expected:
+        AgentName                            : 'Amazon Music'
+        OperatingSystemName                  : 'iOS'
+        DeviceClass                          : 'Phone'
+
+
   # AmazonMusic/16.17.1 Dalvik/2.1.0 (Linux; U; Android 10; SM-N986U Build/QP1A.190711.020) - Android app - should be categorised as AmazonMusic, Android, Mobile (or Phone when device is known to be Phone to yauaa)
   - matcher:
       require:
