@@ -16,6 +16,25 @@
 
 # Cortex customized rules
 config:
+  # ---- Amazon Fire TV
+  # https://developer.amazon.com/docs/fire-tv/fire-tv-edition-faq.html
+  # https://developer.amazon.com/docs/fire-tv/identify-amazon-fire-tv-devices.html
+  # Amazon;AFTEAMR311;756a522d9f1648b89e76e80be654456a;;tpapi;3.134.19
+  - matcher:
+      require:
+        - 'agent{"Amazon;AFT"'
+      extract:
+        - 'AgentName                         :   2001 : "Amazon Fire TV"'
+        - 'OperatingSystemName               :   2001 : "FireOS"'
+        - 'DeviceClass                       :   2001 : "TV"'
+  - test:
+      input:
+        user_agent_string: 'Amazon;AFTEAMR311;756a522d9f1648b89e76e80be654456a;;tpapi;3.134.19'
+      expected:
+        AgentName                            : 'Amazon Fire TV'
+        OperatingSystemName                  : 'FireOS'
+        DeviceClass                          : 'TV'
+
   # ---- Amazon Music specific rules
   # AmazonMusic - Android app - should be categorised as AmazonMusic, Android, Mobile
   - matcher:
